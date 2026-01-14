@@ -1,32 +1,24 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
-// Determina se siamo in produzione (Netlify) o sviluppo locale
-const isServer = typeof process !== 'undefined' && process.env.NODE_ENV === 'production';
-
 export default config({
-  storage: isServer
-    ? {
-        kind: 'github',
-        repo: 'Ro0t-set/VisualDigitalAgencyDemo',
-      }
-    : {
-        kind: 'local',
-      },
+  storage: {
+    kind: 'github',
+    repo: 'Ro0t-set/VisualDigitalAgencyDemo',
+  },
 
   ui: {
-    brand: {
-      name: 'Viral Digital Agency',
-    },
+    brand: { name: 'Viral Digital Agency' },
   },
 
   singletons: {
-    settings: singleton({
-      label: 'Impostazioni Sito',
+    // Impostazioni Globali del sito
+    global: singleton({
+      label: 'Impostazioni Globali',
       path: 'content/settings/global',
       format: { data: 'json' },
       schema: {
         companyName: fields.text({ label: 'Nome Azienda' }),
-        tagline: fields.text({ label: 'Slogan' }),
+        tagline: fields.text({ label: 'Tagline' }),
         logo: fields.image({
           label: 'Logo',
           directory: 'public/uploads',
@@ -38,68 +30,115 @@ export default config({
           address: fields.text({ label: 'Indirizzo' }),
         }, { label: 'Contatti' }),
         social: fields.object({
-          instagram: fields.url({ label: 'Instagram URL' }),
-          facebook: fields.url({ label: 'Facebook URL' }),
+          facebook: fields.url({ label: 'Facebook' }),
+          instagram: fields.url({ label: 'Instagram' }),
+          linkedin: fields.url({ label: 'LinkedIn' }),
+          twitter: fields.url({ label: 'Twitter/X' }),
         }, { label: 'Social Media' }),
+        seo: fields.object({
+          titleSuffix: fields.text({ label: 'Suffisso Titolo SEO' }),
+          defaultDescription: fields.text({ label: 'Descrizione Default', multiline: true }),
+        }, { label: 'SEO' }),
+        form: fields.object({
+          formspreeId: fields.text({ label: 'Formspree ID' }),
+        }, { label: 'Form Contatti' }),
+        legal: fields.object({
+          piva: fields.text({ label: 'Partita IVA' }),
+          codiceDestinatario: fields.text({ label: 'Codice Destinatario SDI' }),
+        }, { label: 'Dati Legali' }),
       },
     }),
 
-    hero: singleton({
-      label: 'Hero Section',
-      path: 'content/sections/hero',
+    // Homepage - tutte le sezioni
+    homepage: singleton({
+      label: 'Homepage',
+      path: 'content/pages/homepage',
       format: { data: 'json' },
       schema: {
-        headline: fields.text({ label: 'Titolo Principale' }),
-        subheadline: fields.text({ label: 'Sottotitolo', multiline: true }),
-        ctaText: fields.text({ label: 'Testo Pulsante' }),
-        ctaLink: fields.text({ label: 'Link Pulsante' }),
-        secondaryCtaText: fields.text({ label: 'Testo Pulsante Secondario' }),
-        secondaryCtaLink: fields.text({ label: 'Link Pulsante Secondario' }),
-      },
-    }),
+        seo: fields.object({
+          title: fields.text({ label: 'Titolo SEO' }),
+          description: fields.text({ label: 'Descrizione SEO', multiline: true }),
+        }, { label: 'SEO' }),
 
-    about: singleton({
-      label: 'About Section',
-      path: 'content/sections/about',
-      format: { data: 'json' },
-      schema: {
-        title: fields.text({ label: 'Titolo' }),
-        description: fields.text({ label: 'Descrizione', multiline: true }),
-        backgroundImage: fields.image({
-          label: 'Immagine Sfondo',
-          directory: 'public/uploads',
-          publicPath: '/uploads/',
-        }),
-      },
-    }),
+        // Hero Section
+        hero: fields.object({
+          badge: fields.text({ label: 'Badge (testo sopra titolo)' }),
+          title: fields.text({ label: 'Titolo Principale' }),
+          subtitle: fields.text({ label: 'Sottotitolo', multiline: true }),
+          ctaPrimary: fields.object({
+            text: fields.text({ label: 'Testo' }),
+            link: fields.text({ label: 'Link' }),
+          }, { label: 'CTA Primario' }),
+          ctaSecondary: fields.object({
+            text: fields.text({ label: 'Testo' }),
+            link: fields.text({ label: 'Link' }),
+          }, { label: 'CTA Secondario' }),
+        }, { label: 'Hero Section' }),
 
-    services: singleton({
-      label: 'Services Section',
-      path: 'content/sections/services',
-      format: { data: 'json' },
-      schema: {
-        title: fields.text({ label: 'Titolo' }),
-        subtitle: fields.text({ label: 'Sottotitolo' }),
-        description: fields.text({ label: 'Descrizione', multiline: true }),
+        // About Section
+        about: fields.object({
+          badge: fields.text({ label: 'Badge' }),
+          title: fields.text({ label: 'Titolo' }),
+          description: fields.text({ label: 'Descrizione', multiline: true }),
+          backgroundImage: fields.text({ label: 'URL Immagine Background' }),
+        }, { label: 'About Section' }),
+
+        // Services Section
+        services: fields.object({
+          badge: fields.text({ label: 'Badge' }),
+          title: fields.text({ label: 'Titolo' }),
+          subtitle: fields.text({ label: 'Sottotitolo' }),
+          description: fields.text({ label: 'Descrizione', multiline: true }),
+        }, { label: 'Sezione Servizi' }),
+
+        // Trailer/Video Section
+        trailer: fields.object({
+          badge: fields.text({ label: 'Badge' }),
+          title: fields.text({ label: 'Titolo' }),
+          videoUrl: fields.text({ label: 'URL Video (YouTube/Vimeo)' }),
+          backgroundImage: fields.text({ label: 'URL Immagine Background' }),
+          playButtonText: fields.text({ label: 'Testo sotto play button' }),
+        }, { label: 'Sezione Trailer/Video' }),
+
+        // Portfolio Section
+        portfolio: fields.object({
+          badge: fields.text({ label: 'Badge' }),
+          title: fields.text({ label: 'Titolo' }),
+          subtitle: fields.text({ label: 'Sottotitolo' }),
+        }, { label: 'Sezione Portfolio' }),
+
+        // Social Section
+        social: fields.object({
+          badge: fields.text({ label: 'Badge' }),
+          title: fields.text({ label: 'Titolo' }),
+        }, { label: 'Sezione Social' }),
+
+        // Contact Section
+        contact: fields.object({
+          title: fields.text({ label: 'Titolo' }),
+          description: fields.text({ label: 'Descrizione', multiline: true }),
+        }, { label: 'Sezione Contatti' }),
       },
     }),
   },
 
   collections: {
+    // Portfolio Items (Gallery)
     portfolio: collection({
       label: 'Portfolio',
-      path: 'content/portfolio/*',
       slugField: 'title',
+      path: 'content/portfolio/*',
       format: { data: 'json' },
       schema: {
-        title: fields.slug({ name: { label: 'Titolo Progetto' } }),
-        description: fields.text({ label: 'Descrizione', multiline: true }),
+        title: fields.slug({ name: { label: 'Titolo' } }),
         image: fields.image({
           label: 'Immagine',
           directory: 'public/uploads/gallery',
           publicPath: '/uploads/gallery/',
+          validation: { isRequired: true },
         }),
-        order: fields.integer({ label: 'Ordine', defaultValue: 0 }),
+        description: fields.text({ label: 'Descrizione', multiline: true }),
+        order: fields.number({ label: 'Ordine', defaultValue: 0 }),
         featured: fields.checkbox({ label: 'In Evidenza' }),
       },
     }),

@@ -2,11 +2,29 @@
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'lucide-astro';
+import { readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
 
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Carica dati da Keystatic
+const contentDir = join(process.cwd(), 'content');
+
+// Homepage data
+const homepage = JSON.parse(readFileSync(join(contentDir, 'pages/homepage.json'), 'utf-8'));
+
+// Global settings
+const global = JSON.parse(readFileSync(join(contentDir, 'settings/global.json'), 'utf-8'));
+
+// Portfolio items
+const portfolioDir = join(contentDir, 'portfolio');
+const portfolioFiles = readdirSync(portfolioDir).filter(f => f.endsWith('.json'));
+const portfolio = portfolioFiles
+  .map(f => JSON.parse(readFileSync(join(portfolioDir, f), 'utf-8')))
+  .sort((a, b) => a.order - b.order);
 ---
 
-<Layout title="Viral Digital Agency Modena" description="Viral Digital Agency Modena – Dicci ciò che vuoi e noi faremo meglio. La tua agenzia di marketing specializzata in foto e video di alta qualità per i social media.">
+<Layout title={homepage.seo.title} description={homepage.seo.description}>
 
   <!-- Hero Section -->
   <section
@@ -20,27 +38,27 @@ const base = import.meta.env.BASE_URL;
       <!-- Logo centrato -->
       <div class="flex justify-center mb-6 md:mb-8">
         <img
-          src={`${base}/uploads/image.png`}
-          alt="Viral Digital Agency"
+          src={global.logo ? `${base}${global.logo}` : `${base}/uploads/image.png`}
+          alt={global.companyName}
           class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
         />
       </div>
 
       <!-- Text Content centrato -->
       <div class="text-center max-w-3xl mx-auto px-2">
-        <p class="text-[#3B5998] text-sm sm:text-lg md:text-xl mb-4 md:mb-6 uppercase tracking-wider md:tracking-widest font-semibold">La tua agenzia di Marketing</p>
+        <p class="text-[#3B5998] text-sm sm:text-lg md:text-xl mb-4 md:mb-6 uppercase tracking-wider md:tracking-widest font-semibold">{homepage.hero.badge}</p>
         <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-white leading-tight">
-          Dicci ciò che vuoi e noi faremo meglio
+          {homepage.hero.title}
         </h1>
         <p class="text-base sm:text-lg md:text-xl text-gray-300 mb-6 md:mb-8 leading-relaxed">
-          Viviamo nell'era social e tu non l'hai ancora capito. Muoviti a polverizzare la tua concorrenza online prima che lo facciano loro.
+          {homepage.hero.subtitle}
         </p>
         <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-          <a href="#servizi" class="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4">
-            Scopri di più
+          <a href={homepage.hero.ctaPrimary.link} class="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4">
+            {homepage.hero.ctaPrimary.text}
           </a>
-          <a href="#contatti" class="border-2 border-white/30 text-white hover:bg-white hover:text-[#3B5998] text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center">
-            Contattaci
+          <a href={homepage.hero.ctaSecondary.link} class="border-2 border-white/30 text-white hover:bg-white hover:text-[#3B5998] text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center">
+            {homepage.hero.ctaSecondary.text}
           </a>
         </div>
       </div>
@@ -58,16 +76,16 @@ const base = import.meta.env.BASE_URL;
   <section
     id="about"
     class="section bg-cover bg-center bg-no-repeat bg-fixed"
-    style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.viralagency.it/wp-content/uploads/2025/02/photo-1499155286265-79a9dc9c6380.jpeg');"
+    style={`background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${homepage.about.backgroundImage}');`}
   >
     <div class="container-custom">
       <div class="max-w-3xl mx-auto text-center reveal">
-        <p class="text-white/80 uppercase tracking-widest mb-4 font-semibold">About su di noi</p>
+        <p class="text-white/80 uppercase tracking-widest mb-4 font-semibold">{homepage.about.badge}</p>
         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
-          Dimmi cosa vuoi e noi faremo meglio
+          {homepage.about.title}
         </h2>
         <p class="text-base sm:text-xl text-white/90 leading-relaxed">
-          Viviamo nell'era social e tu non l'hai ancora capito. Muoviti a polverizzare la tua concorrenza online prima che lo facciano loro.
+          {homepage.about.description}
         </p>
       </div>
     </div>
@@ -77,10 +95,10 @@ const base = import.meta.env.BASE_URL;
   <section id="servizi" class="section bg-gray-50">
     <div class="container-custom">
       <div class="max-w-3xl mx-auto text-center reveal">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">Our Job</p>
-        <h2 class="section-title mb-6">Cosa facciamo</h2>
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">{homepage.services.badge}</p>
+        <h2 class="section-title mb-6">{homepage.services.title}</h2>
         <p class="text-xl text-gray-600 leading-relaxed mb-8">
-          Creazione e gestione contenuti social
+          {homepage.services.subtitle}
         </p>
         <div class="flex justify-center">
           <div class="icon-wrapper mb-6">
@@ -88,7 +106,7 @@ const base = import.meta.env.BASE_URL;
           </div>
         </div>
         <p class="text-xl md:text-2xl text-gray-700 leading-relaxed">
-          La nostra specializzazione sono foto e video di alta qualità per far prendere il volo alla tua vetrina online.
+          {homepage.services.description}
         </p>
       </div>
     </div>
@@ -98,13 +116,13 @@ const base = import.meta.env.BASE_URL;
   <section
     id="trailer"
     class="section bg-cover bg-center bg-no-repeat bg-fixed"
-    style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://www.viralagency.it/wp-content/uploads/2025/02/photo-1508179522353-11ba468c4a1c.jpeg');"
+    style={`background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${homepage.trailer.backgroundImage}');`}
   >
     <div class="container-custom relative z-10">
       <div class="text-center mb-12 reveal">
-        <p class="text-white/80 uppercase tracking-wider sm:tracking-widest mb-3 sm:mb-4 font-semibold text-sm sm:text-base">immergiti nel trailer</p>
+        <p class="text-white/80 uppercase tracking-wider sm:tracking-widest mb-3 sm:mb-4 font-semibold text-sm sm:text-base">{homepage.trailer.badge}</p>
         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
-          Guarda ora
+          {homepage.trailer.title}
         </h2>
       </div>
 
@@ -121,7 +139,7 @@ const base = import.meta.env.BASE_URL;
             </div>
           </div>
           <div class="absolute bottom-4 left-4 right-4 text-center">
-            <p class="text-white/80 text-sm">Clicca per vedere il nostro showreel</p>
+            <p class="text-white/80 text-sm">{homepage.trailer.playButtonText}</p>
           </div>
         </div>
       </div>
@@ -132,24 +150,24 @@ const base = import.meta.env.BASE_URL;
   <section id="portfolio" class="section bg-white">
     <div class="container-custom">
       <div class="text-center mb-16 reveal-scale">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">i nostri lavori</p>
-        <h2 class="section-title mb-4">Portfolio</h2>
-        <p class="text-lg text-gray-600">Our Gallery</p>
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">{homepage.portfolio.badge}</p>
+        <h2 class="section-title mb-4">{homepage.portfolio.title}</h2>
+        <p class="text-lg text-gray-600">{homepage.portfolio.subtitle}</p>
       </div>
 
       <!-- Gallery Grid with real images -->
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 stagger-children">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+        {portfolio.map((item) => (
           <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-lg img-zoom">
             <img
-              src={`${base}/uploads/gallery/${item}.png`}
-              alt={`Progetto ${item}`}
+              src={`${base}${item.image}`}
+              alt={item.description || item.title}
               class="w-full h-full object-cover"
               loading="lazy"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-              <p class="text-white text-sm font-medium">Progetto {item}</p>
+              <p class="text-white text-sm font-medium">{item.description || item.title}</p>
             </div>
           </div>
         ))}
@@ -161,36 +179,40 @@ const base = import.meta.env.BASE_URL;
   <section id="social" class="section bg-gradient-to-b from-gray-50 to-white">
     <div class="container-custom">
       <div class="text-center mb-12 reveal">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">seguici sui nostri social</p>
-        <h2 class="section-title mb-4">Restiamo connessi</h2>
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">{homepage.social.badge}</p>
+        <h2 class="section-title mb-4">{homepage.social.title}</h2>
       </div>
 
       <div class="flex justify-center gap-4 sm:gap-6 reveal-scale">
-        <a
-          href="https://instagram.com/viral.digitalagency"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group flex flex-col items-center gap-3 sm:gap-4 p-5 sm:p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
-          aria-label="Seguici su Instagram"
-        >
-          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-            <Instagram class="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-          </div>
-          <span class="text-gray-700 font-semibold text-sm sm:text-base">Instagram</span>
-        </a>
+        {global.social.instagram && (
+          <a
+            href={global.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex flex-col items-center gap-3 sm:gap-4 p-5 sm:p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+            aria-label="Seguici su Instagram"
+          >
+            <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <Instagram class="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            </div>
+            <span class="text-gray-700 font-semibold text-sm sm:text-base">Instagram</span>
+          </a>
+        )}
 
-        <a
-          href="https://facebook.com/ViralAgencyAC"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group flex flex-col items-center gap-3 sm:gap-4 p-5 sm:p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
-          aria-label="Seguici su Facebook"
-        >
-          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-            <Facebook class="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-          </div>
-          <span class="text-gray-700 font-semibold text-sm sm:text-base">Facebook</span>
-        </a>
+        {global.social.facebook && (
+          <a
+            href={global.social.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex flex-col items-center gap-3 sm:gap-4 p-5 sm:p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+            aria-label="Seguici su Facebook"
+          >
+            <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <Facebook class="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+            </div>
+            <span class="text-gray-700 font-semibold text-sm sm:text-base">Facebook</span>
+          </a>
+        )}
       </div>
     </div>
   </section>
@@ -202,10 +224,10 @@ const base = import.meta.env.BASE_URL;
         <!-- Contact Info -->
         <div class="text-white reveal-left">
           <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
-            Contattaci
+            {homepage.contact.title}
           </h2>
           <p class="text-gray-300 text-base sm:text-lg mb-8 md:mb-10 leading-relaxed">
-            Sei pronto a far decollare la tua presenza online? Contattaci per una consulenza gratuita.
+            {homepage.contact.description}
           </p>
 
           <div class="space-y-6">
@@ -215,7 +237,7 @@ const base = import.meta.env.BASE_URL;
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Indirizzo</p>
-                <p class="text-gray-300">Piazza Tintori 27, Bastiglia (MO) – 41033</p>
+                <p class="text-gray-300">{global.contact.address}</p>
               </div>
             </div>
 
@@ -225,7 +247,7 @@ const base = import.meta.env.BASE_URL;
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Telefono</p>
-                <a href="tel:3713767488" class="text-gray-300 hover:text-[#5B8BD4] transition-colors">3713767488</a>
+                <a href={`tel:${global.contact.phone.replace(/\s/g, '')}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{global.contact.phone}</a>
               </div>
             </div>
 
@@ -235,7 +257,7 @@ const base = import.meta.env.BASE_URL;
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Email</p>
-                <a href="mailto:info@viralagency.it" class="text-gray-300 hover:text-[#5B8BD4] transition-colors">info@viralagency.it</a>
+                <a href={`mailto:${global.contact.email}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{global.contact.email}</a>
               </div>
             </div>
           </div>

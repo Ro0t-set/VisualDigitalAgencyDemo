@@ -1,5 +1,13 @@
 ---
-const base = import.meta.env.BASE_URL;
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Carica impostazioni globali
+const contentDir = join(process.cwd(), 'content');
+const global = JSON.parse(readFileSync(join(contentDir, 'settings/global.json'), 'utf-8'));
+
 const navItems = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
@@ -15,7 +23,7 @@ const navItems = [
     <div class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo / Company Name -->
       <a href="#home" class="flex items-center group">
-        <img src={`${base}/uploads/image.png`} alt="Viral Digital Agency" class="h-14 w-auto group-hover:opacity-80 transition-opacity" />
+        <img src={global.logo ? `${base}${global.logo}` : `${base}/uploads/image.png`} alt={global.companyName} class="h-14 w-auto group-hover:opacity-80 transition-opacity" />
       </a>
 
       <!-- Desktop Navigation -->
