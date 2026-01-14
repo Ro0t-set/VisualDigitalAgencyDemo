@@ -5,7 +5,7 @@
   },
   "hero": {
     "badge": "La tua agenzia di Marketing",
-    "title": "Dicci ciò che vuoi e noi faremo meglio",
+    "title": "Dicci ciò che vuoi e noi faremo meglio!",
     "subtitle": "Viviamo nell'era social e tu non l'hai ancora capito. Muoviti a polverizzare la tua concorrenza online prima che lo facciano loro.",
     "ctaPrimary": {
       "text": "Scopri di più",
@@ -31,7 +31,6 @@
   "trailer": {
     "badge": "immergiti nel trailer",
     "title": "Guarda ora",
-    "videoUrl": "",
     "backgroundImage": "https://www.viralagency.it/wp-content/uploads/2025/02/photo-1508179522353-11ba468c4a1c.jpeg",
     "playButtonText": "Clicca per vedere il nostro showreel"
   },
