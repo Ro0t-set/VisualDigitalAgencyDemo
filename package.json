@@ -3,8 +3,8 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tinacms dev -c \"astro dev\"",
-    "build": "tinacms build && astro build",
+    "dev": "astro dev",
+    "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
@@ -12,8 +12,6 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.9",
     "lucide-astro": "^0.556.0",
-    "tailwindcss": "^4.1.18",
-    "tinacms": "^2.2.0",
-    "@tinacms/cli": "^1.6.0"
+    "tailwindcss": "^4.1.18"
   }
 }
