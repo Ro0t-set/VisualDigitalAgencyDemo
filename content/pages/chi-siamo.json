@@ -1,0 +1,67 @@
+{
+  "title": "Chi Siamo",
+  "seo": {
+    "metaTitle": "Chi Siamo - La Nostra Storia",
+    "metaDescription": "Scopri la storia, i valori e il team dietro la nostra azienda. Dal 2010 al servizio delle imprese italiane."
+  },
+  "hero": {
+    "headline": "La Nostra Storia",
+    "subheadline": "Dal 2010 al fianco delle aziende italiane, con passione e dedizione."
+  },
+  "sections": [
+    {
+      "title": "Chi Siamo",
+      "content": "\\[object Object]\n",
+      "image": "",
+      "imageOnRight": true,
+      "_template": "imageText"
+    },
+    {
+      "title": "I Nostri Valori",
+      "subtitle": "Principi che guidano ogni nostra azione",
+      "features": [
+        {
+          "title": "Trasparenza",
+          "description": "Comunicazione chiara e onesta in ogni fase del progetto.",
+          "icon": "shield"
+        },
+        {
+          "title": "Qualità",
+          "description": "Standard elevati in ogni deliverable, senza compromessi.",
+          "icon": "chart"
+        },
+        {
+          "title": "Partnership",
+          "description": "Non siamo fornitori, siamo partner nel vostro successo.",
+          "icon": "users"
+        }
+      ],
+      "_template": "featuresGrid"
+    },
+    {
+      "title": "Il Nostro Team",
+      "subtitle": "Professionisti dedicati al tuo successo",
+      "members": [
+        {
+          "name": "Mario Rossi",
+          "role": "CEO & Founder",
+          "photo": "/uploads/Gemini_Generated_Image_h6v1oah6v1oah6v1.png",
+          "bio": "Oltre 15 anni di esperienza nel settore tech. Appassionato di innovazione e strategia aziendale."
+        },
+        {
+          "name": "Laura Bianchi",
+          "role": "Direttore Creativo",
+          "photo": "",
+          "bio": "Designer pluripremiata con focus su UX/UI. Trasforma le idee in esperienze memorabili."
+        },
+        {
+          "name": "Marco Verdi",
+          "role": "CTO",
+          "photo": "",
+          "bio": "Architetto software con passione per le tecnologie emergenti e le soluzioni scalabili."
+        }
+      ],
+      "_template": "teamSection"
+    }
+  ]
+}

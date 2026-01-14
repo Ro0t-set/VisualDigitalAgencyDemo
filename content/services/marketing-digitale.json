@@ -1,0 +1,28 @@
+{
+  "title": "Marketing Digitale",
+  "shortDescription": "Strategie di marketing online per aumentare la visibilità e generare lead qualificati.",
+  "description": {
+    "type": "root",
+    "children": [
+      {
+        "type": "p",
+        "children": [
+          {
+            "type": "text",
+            "text": "Progettiamo e implementiamo strategie di marketing digitale complete: dalla SEO al content marketing, dalle campagne social alla lead generation. Risultati misurabili e ROI positivo."
+          }
+        ]
+      }
+    ]
+  },
+  "icon": "rocket",
+  "image": "",
+  "features": [
+    { "feature": "SEO e Content Marketing" },
+    { "feature": "Social Media Management" },
+    { "feature": "Email Marketing Automation" },
+    { "feature": "Analytics e Reporting" }
+  ],
+  "order": 3,
+  "featured": true
+}

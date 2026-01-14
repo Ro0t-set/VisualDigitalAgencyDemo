@@ -1,0 +1,31 @@
+{
+  "title": "Contatti",
+  "seo": {
+    "metaTitle": "Contattaci",
+    "metaDescription": "Hai domande o vuoi richiedere un preventivo? Contattaci oggi stesso. Siamo pronti ad aiutarti."
+  },
+  "hero": {
+    "headline": "Contattaci",
+    "subheadline": "Siamo qui per rispondere alle tue domande e aiutarti a realizzare i tuoi progetti"
+  },
+  "sections": [
+    {
+      "_template": "textSection",
+      "title": "Parliamo del Tuo Progetto",
+      "content": {
+        "type": "root",
+        "children": [
+          {
+            "type": "p",
+            "children": [
+              {
+                "type": "text",
+                "text": "Compila il form qui sotto e ti risponderemo entro 24 ore lavorative. Per richieste urgenti, chiamaci direttamente o scrivici via email."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

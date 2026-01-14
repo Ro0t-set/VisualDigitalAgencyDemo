@@ -1,0 +1,28 @@
+{
+  "title": "Consulenza Strategica",
+  "shortDescription": "Analizziamo il tuo business e definiamo insieme la strategia migliore per raggiungere i tuoi obiettivi.",
+  "description": {
+    "type": "root",
+    "children": [
+      {
+        "type": "p",
+        "children": [
+          {
+            "type": "text",
+            "text": "La nostra consulenza strategica ti aiuta a definire una visione chiara per il futuro della tua azienda. Analizziamo il mercato, i competitor e le opportunità per creare un piano d'azione concreto e realizzabile."
+          }
+        ]
+      }
+    ]
+  },
+  "icon": "chart",
+  "image": "",
+  "features": [
+    { "feature": "Analisi di mercato approfondita" },
+    { "feature": "Definizione obiettivi SMART" },
+    { "feature": "Piano d'azione personalizzato" },
+    { "feature": "Monitoraggio e ottimizzazione" }
+  ],
+  "order": 1,
+  "featured": true
+}

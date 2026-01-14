@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* Custom CSS Variables for brand colors - these get overridden by Tina settings */
+:root {
+  --color-primary: #2563eb;
+  --color-secondary: #1e40af;
+  --color-accent: #3b82f6;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #111827;
+}
+
+/* Utility classes for brand colors */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-secondary {
+  color: var(--color-secondary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+/* Button styles - using pure CSS for Tailwind v4 compatibility */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  color: white;
+  background-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-secondary);
+  transform: scale(1.05);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  border: 2px solid var(--color-primary);
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Section spacing */
+.section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.container-custom {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-custom {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Rich text styles */
+.prose-custom {
+  max-width: none;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.prose-custom p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+
+.prose-custom h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+.prose-custom h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.prose-custom ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose-custom li {
+  margin-bottom: 0.5rem;
+}

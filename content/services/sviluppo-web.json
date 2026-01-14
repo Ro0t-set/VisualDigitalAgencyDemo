@@ -1,0 +1,28 @@
+{
+  "title": "Sviluppo Web",
+  "shortDescription": "Siti web e applicazioni performanti, responsive e ottimizzati per i motori di ricerca.",
+  "description": {
+    "type": "root",
+    "children": [
+      {
+        "type": "p",
+        "children": [
+          {
+            "type": "text",
+            "text": "Creiamo siti web moderni e performanti utilizzando le tecnologie più avanzate. Ogni progetto è ottimizzato per la velocità, l'accessibilità e il posizionamento sui motori di ricerca."
+          }
+        ]
+      }
+    ]
+  },
+  "icon": "code",
+  "image": "",
+  "features": [
+    { "feature": "Design responsive mobile-first" },
+    { "feature": "Ottimizzazione SEO on-page" },
+    { "feature": "Performance score 90+" },
+    { "feature": "Integrazione CMS" }
+  ],
+  "order": 2,
+  "featured": true
+}

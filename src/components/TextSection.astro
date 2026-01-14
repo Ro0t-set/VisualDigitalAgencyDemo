@@ -1,0 +1,77 @@
+---
+interface Props {
+  title?: string;
+  content: any; // TinaMarkdown content
+}
+
+const { title, content } = Astro.props;
+
+// Helper to render TinaMarkdown content to HTML
+function renderRichText(node: any): string {
+  if (!node) return '';
+
+  if (typeof node === 'string') return node;
+
+  if (node.type === 'root') {
+    return node.children?.map(renderRichText).join('') || '';
+  }
+
+  if (node.type === 'text') {
+    let text = node.text || '';
+    if (node.bold) text = `<strong>${text}</strong>`;
+    if (node.italic) text = `<em>${text}</em>`;
+    return text;
+  }
+
+  if (node.type === 'p') {
+    const content = node.children?.map(renderRichText).join('') || '';
+    return `<p>${content}</p>`;
+  }
+
+  if (node.type === 'h2') {
+    const content = node.children?.map(renderRichText).join('') || '';
+    return `<h2>${content}</h2>`;
+  }
+
+  if (node.type === 'h3') {
+    const content = node.children?.map(renderRichText).join('') || '';
+    return `<h3>${content}</h3>`;
+  }
+
+  if (node.type === 'ul') {
+    const content = node.children?.map(renderRichText).join('') || '';
+    return `<ul>${content}</ul>`;
+  }
+
+  if (node.type === 'li') {
+    const content = node.children?.map(renderRichText).join('') || '';
+    return `<li>${content}</li>`;
+  }
+
+  if (node.type === 'lic') {
+    return node.children?.map(renderRichText).join('') || '';
+  }
+
+  if (node.type === 'a') {
+    const content = node.children?.map(renderRichText).join('') || '';
+    return `<a href="${node.url}" class="text-primary hover:underline">${content}</a>`;
+  }
+
+  return '';
+}
+---
+
+<section class="section bg-white">
+  <div class="container-custom">
+    <div class="max-w-3xl mx-auto">
+      {title && (
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+          {title}
+        </h2>
+      )}
+      {content && (
+        <div class="prose-custom text-gray-600" set:html={renderRichText(content)} />
+      )}
+    </div>
+  </div>
+</section>

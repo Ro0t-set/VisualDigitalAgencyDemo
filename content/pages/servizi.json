@@ -1,0 +1,38 @@
+{
+  "title": "Servizi",
+  "seo": {
+    "metaTitle": "I Nostri Servizi",
+    "metaDescription": "Scopri la gamma completa dei nostri servizi: consulenza strategica, sviluppo web, marketing digitale e molto altro."
+  },
+  "hero": {
+    "headline": "I Nostri Servizi",
+    "subheadline": "Soluzioni complete per ogni esigenza del tuo business"
+  },
+  "sections": [
+    {
+      "_template": "textSection",
+      "title": "Come Possiamo Aiutarti",
+      "content": {
+        "type": "root",
+        "children": [
+          {
+            "type": "p",
+            "children": [
+              {
+                "type": "text",
+                "text": "Offriamo una gamma completa di servizi pensati per supportare la crescita del tuo business. Dalla strategia all'implementazione, siamo al tuo fianco in ogni fase del percorso."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "_template": "ctaSection",
+      "title": "Non trovi quello che cerchi?",
+      "subtitle": "Contattaci per discutere le tue esigenze specifiche. Creiamo soluzioni su misura.",
+      "buttonText": "Parliamone",
+      "buttonLink": "/contatti"
+    }
+  ]
+}

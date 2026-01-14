@@ -1,0 +1,51 @@
+{
+  "title": "Home",
+  "seo": {
+    "metaTitle": "Home - Soluzioni Innovative per il Tuo Business",
+    "metaDescription": "Scopri come possiamo aiutare la tua azienda a crescere con i nostri servizi di consulenza, sviluppo e marketing digitale."
+  },
+  "hero": {
+    "headline": "Trasforma la tua visione in realtà",
+    "subheadline": "Siamo il partner ideale per far crescere il tuo business. Soluzioni innovative, risultati concreti.",
+    "backgroundImage": "",
+    "cta": {
+      "text": "Scopri i Servizi",
+      "link": "/servizi"
+    },
+    "secondaryCta": {
+      "text": "Contattaci",
+      "link": "/contatti"
+    }
+  },
+  "sections": [
+    {
+      "_template": "featuresGrid",
+      "title": "Perché Sceglierci",
+      "subtitle": "Competenza, innovazione e dedizione al tuo servizio",
+      "features": [
+        {
+          "title": "Esperienza",
+          "description": "Oltre 10 anni di esperienza nel settore con centinaia di progetti completati.",
+          "icon": "chart"
+        },
+        {
+          "title": "Innovazione",
+          "description": "Utilizziamo le tecnologie più avanzate per garantire risultati eccellenti.",
+          "icon": "lightbulb"
+        },
+        {
+          "title": "Supporto",
+          "description": "Assistenza dedicata 24/7 per ogni tua esigenza e domanda.",
+          "icon": "users"
+        }
+      ]
+    },
+    {
+      "_template": "ctaSection",
+      "title": "Pronto a iniziare?",
+      "subtitle": "Contattaci oggi per una consulenza gratuita e scopri come possiamo aiutarti.",
+      "buttonText": "Richiedi Preventivo",
+      "buttonLink": "/contatti"
+    }
+  ]
+}

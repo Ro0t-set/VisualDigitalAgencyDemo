@@ -1,0 +1,28 @@
+{
+  "companyName": "Azienda Demo",
+  "tagline": "Innovazione al tuo servizio",
+  "logo": "",
+  "colors": {
+    "primary": "#2563eb",
+    "secondary": "#1e40af",
+    "accent": "#3b82f6"
+  },
+  "contact": {
+    "email": "info@aziendademo.it",
+    "phone": "+39 02 1234567",
+    "address": "Via Roma 123, 20100 Milano"
+  },
+  "social": {
+    "facebook": "https://facebook.com",
+    "instagram": "https://instagram.com",
+    "linkedin": "https://linkedin.com",
+    "twitter": "https://twitter.com"
+  },
+  "seo": {
+    "titleSuffix": " | Azienda Demo",
+    "defaultDescription": "Azienda Demo - Soluzioni innovative per il tuo business. Scopri i nostri servizi e contattaci per una consulenza gratuita."
+  },
+  "form": {
+    "formspreeId": "your-formspree-id"
+  }
+}

@@ -1,0 +1,68 @@
+---
+interface TeamMember {
+  name: string;
+  role: string;
+  photo?: string;
+  bio?: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  members: TeamMember[];
+}
+
+const { title, subtitle, members } = Astro.props;
+---
+
+<section class="section bg-white">
+  <div class="container-custom">
+    {(title || subtitle) && (
+      <div class="text-center mb-12 md:mb-16">
+        {title && (
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {title}
+          </h2>
+        )}
+        {subtitle && (
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            {subtitle}
+          </p>
+        )}
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {members.map((member) => (
+        <div class="text-center">
+          <div class="mb-4">
+            {member.photo ? (
+              <img
+                src={member.photo}
+                alt={member.name}
+                class="w-32 h-32 rounded-full mx-auto object-cover"
+              />
+            ) : (
+              <div class="w-32 h-32 rounded-full mx-auto bg-gray-200 flex items-center justify-center">
+                <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+            )}
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900">
+            {member.name}
+          </h3>
+          <p class="text-primary font-medium mb-2">
+            {member.role}
+          </p>
+          {member.bio && (
+            <p class="text-gray-600 text-sm">
+              {member.bio}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

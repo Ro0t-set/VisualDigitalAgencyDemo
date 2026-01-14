@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// Import settings from Tina
+import settings from '../../content/settings/global.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Build full title with suffix from settings
+const fullTitle = title
+  ? `${title}${settings.seo?.titleSuffix || ''}`
+  : settings.companyName;
+
+const metaDescription = description || settings.seo?.defaultDescription || '';
+
+// Get brand colors from settings
+const primaryColor = settings.colors?.primary || '#2563eb';
+const secondaryColor = settings.colors?.secondary || '#1e40af';
+const accentColor = settings.colors?.accent || '#3b82f6';
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={metaDescription} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{fullTitle}</title>
+
+    <!-- Inject brand colors as CSS variables -->
+    <style define:vars={{ primaryColor, secondaryColor, accentColor }}>
+      :root {
+        --color-primary: var(--primaryColor);
+        --color-secondary: var(--secondaryColor);
+        --color-accent: var(--accentColor);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import FeaturesGrid from '../components/FeaturesGrid.astro';
+import CtaSection from '../components/CtaSection.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+
+// Import page content from Tina
+import pageContent from '../../content/pages/home.json';
+
+// Import services and filter featured ones
+import consulenza from '../../content/services/consulenza-strategica.json';
+import sviluppo from '../../content/services/sviluppo-web.json';
+import marketing from '../../content/services/marketing-digitale.json';
+
+const allServices = [consulenza, sviluppo, marketing];
+const featuredServices = allServices
+  .filter(s => s.featured)
+  .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+const { hero, sections, seo } = pageContent;
+---
+
+<Layout title={seo?.metaTitle || pageContent.title} description={seo?.metaDescription}>
+  <!-- Hero Section -->
+  {hero && (
+    <Hero
+      headline={hero.headline || ''}
+      subheadline={hero.subheadline}
+      backgroundImage={hero.backgroundImage}
+      cta={hero.cta}
+      secondaryCta={hero.secondaryCta}
+    />
+  )}
+
+  <!-- Featured Services Section -->
+  {featuredServices.length > 0 && (
+    <section class="section bg-gray-50">
+      <div class="container-custom">
+        <div class="text-center mb-12 md:mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            I Nostri Servizi
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Soluzioni complete per ogni esigenza del tuo business
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {featuredServices.map((service) => (
+            <ServiceCard
+              title={service.title}
+              description={service.shortDescription || ''}
+              icon={service.icon}
+              image={service.image}
+              features={service.features}
+            />
+          ))}
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="/servizi" class="btn-outline">
+            Vedi tutti i servizi
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Dynamic Sections from Tina -->
+  {sections?.map((section: any) => {
+    if (section._template === 'featuresGrid' && section.features) {
+      return (
+        <FeaturesGrid
+          title={section.title}
+          subtitle={section.subtitle}
+          features={section.features}
+        />
+      );
+    }
+
+    if (section._template === 'ctaSection') {
+      return (
+        <CtaSection
+          title={section.title || ''}
+          subtitle={section.subtitle}
+          buttonText={section.buttonText || 'Contattaci'}
+          buttonLink={section.buttonLink || '/contatti'}
+        />
+      );
+    }
+
+    return null;
+  })}
+</Layout>

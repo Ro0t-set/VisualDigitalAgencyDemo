@@ -1,0 +1,54 @@
+---
+import Icon from './Icon.astro';
+
+interface Feature {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  features: Feature[];
+}
+
+const { title, subtitle, features } = Astro.props;
+---
+
+<section class="section bg-white">
+  <div class="container-custom">
+    {(title || subtitle) && (
+      <div class="text-center mb-12 md:mb-16">
+        {title && (
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {title}
+          </h2>
+        )}
+        {subtitle && (
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            {subtitle}
+          </p>
+        )}
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {features.map((feature) => (
+        <div class="p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+          {feature.icon && (
+            <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+              <Icon name={feature.icon} class="w-6 h-6 text-primary" />
+            </div>
+          )}
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            {feature.title}
+          </h3>
+          <p class="text-gray-600">
+            {feature.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
