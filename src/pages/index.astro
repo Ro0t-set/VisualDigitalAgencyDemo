@@ -2,26 +2,18 @@
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'lucide-astro';
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Carica dati da Keystatic
-const contentDir = join(process.cwd(), 'content');
+// Carica dati da Keystatic usando import statici (compatibile con Cloudflare Workers)
+import homepage from '../../content/pages/homepage.json';
+import global from '../../content/settings/global.json';
 
-// Homepage data
-const homepage = JSON.parse(readFileSync(join(contentDir, 'pages/homepage.json'), 'utf-8'));
-
-// Global settings
-const global = JSON.parse(readFileSync(join(contentDir, 'settings/global.json'), 'utf-8'));
-
-// Portfolio items
-const portfolioDir = join(contentDir, 'portfolio');
-const portfolioFiles = readdirSync(portfolioDir).filter(f => f.endsWith('.json'));
-const portfolio = portfolioFiles
-  .map(f => JSON.parse(readFileSync(join(portfolioDir, f), 'utf-8')))
-  .sort((a, b) => a.order - b.order);
+// Portfolio items usando import.meta.glob
+const portfolioFiles = import.meta.glob('../../content/portfolio/*.json', { eager: true });
+const portfolio = Object.values(portfolioFiles)
+  .map((mod: any) => mod.default || mod)
+  .sort((a: any, b: any) => a.order - b.order);
 ---
 
 <Layout title={homepage.seo.title} description={homepage.seo.description}>
