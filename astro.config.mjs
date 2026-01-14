@@ -14,7 +14,7 @@ const isGitHubActions = process.env.CI === 'true' && !isCloudflare;
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tommasopatriti.me',
+  site: isGitHubActions ? 'https://tommasopatriti.me': 'https://visualdigitalagencydemo.pages.dev',
   base: isGitHubActions ? '/VisualDigitalAgencyDemo' : '',
   output: isGitHubActions ? 'static' : 'server',
   adapter: isGitHubActions ? undefined : cloudflare(),
