@@ -1,10 +1,17 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
+// Determina se siamo in produzione (Netlify) o sviluppo locale
+const isServer = typeof process !== 'undefined' && process.env.NODE_ENV === 'production';
+
 export default config({
-  // Solo modalità locale per GitHub Pages
-  storage: {
-    kind: 'local',
-  },
+  storage: isServer
+    ? {
+        kind: 'github',
+        repo: 'Ro0t-set/VisualDigitalAgencyDemo',
+      }
+    : {
+        kind: 'local',
+      },
 
   ui: {
     brand: {
