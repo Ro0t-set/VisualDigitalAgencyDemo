@@ -45,7 +45,7 @@ body {
   top: 0;
 }
 
-/* Cursor glow effect */
+/* Cursor glow effect - hidden on mobile/touch devices */
 .cursor-glow {
   position: fixed;
   width: 400px;
@@ -57,6 +57,13 @@ body {
   transform: translate(-50%, -50%);
   transition: opacity 0.3s ease;
   mix-blend-mode: screen;
+  display: none;
+}
+
+@media (min-width: 1024px) and (hover: hover) {
+  .cursor-glow {
+    display: block;
+  }
 }
 
 /* Animated gradient background */
@@ -899,5 +906,94 @@ button:focus-visible {
   50% {
     transform: translate(-50%, -50%) scale(1.2);
     opacity: 1;
+  }
+}
+
+/* ==========================================
+   MOBILE OPTIMIZATIONS
+   ========================================== */
+
+/* Disable heavy animations on mobile for performance */
+@media (max-width: 768px) {
+  /* Simplify hero animated background on mobile */
+  .hero-animated-bg::before,
+  .hero-animated-bg::after {
+    width: 250px;
+    height: 250px;
+    filter: blur(60px);
+    opacity: 0.3;
+    animation: none;
+  }
+
+  .hero-animated-bg::before {
+    top: 10%;
+    left: 10%;
+    color: rgba(59, 89, 152, 1);
+  }
+
+  .hero-animated-bg::after {
+    bottom: 10%;
+    right: 10%;
+    color: rgba(91, 139, 212, 1);
+  }
+
+  /* Disable parallax on mobile - causes jank */
+  .bg-fixed {
+    background-attachment: scroll !important;
+  }
+
+  /* Reduce section padding on mobile */
+  .section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  /* Smaller container padding */
+  .container-custom {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Disable tilt effect on touch devices */
+  .tilt-card {
+    transform: none !important;
+  }
+
+  /* Simplify reveal animations */
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Reduce blur effects for performance */
+  .blur-3xl {
+    filter: blur(40px);
+  }
+}
+
+/* Touch device specific - disable hover effects that cause issues */
+@media (hover: none) {
+  .feature-card:hover,
+  .btn-primary:hover,
+  .btn-outline:hover {
+    transform: none;
+  }
+
+  .group:hover .group-hover\:scale-110 {
+    transform: none;
+  }
+
+  .hover\:-translate-y-2:hover {
+    transform: none;
+  }
+}
+
+/* Fix for iOS Safari viewport height */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
   }
 }
