@@ -24,6 +24,11 @@ export default config({
           directory: 'public/uploads',
           publicPath: '/uploads/',
         }),
+        colors: fields.object({
+          primary: fields.text({ label: 'Colore Primario', defaultValue: '#8B5CF6' }),
+          secondary: fields.text({ label: 'Colore Secondario', defaultValue: '#6D28D9' }),
+          accent: fields.text({ label: 'Colore Accent', defaultValue: '#EC4899' }),
+        }, { label: 'Colori' }),
         contact: fields.object({
           email: fields.text({ label: 'Email' }),
           phone: fields.text({ label: 'Telefono' }),
