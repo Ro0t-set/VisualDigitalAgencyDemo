@@ -1,7 +1,6 @@
 {
   "companyName": "Viral Digital Agency",
-  "tagline": "Dimmi cosa vuoi e noi faremo meglio!",
-  "logo": "",
+  "tagline": "Dimmi cosa vuoi e noi faremo meglio",
   "colors": {
     "primary": "#8B5CF6",
     "secondary": "#6D28D9",
@@ -14,9 +13,7 @@
   },
   "social": {
     "facebook": "https://facebook.com/ViralAgencyAC",
-    "instagram": "https://instagram.com/viral.digitalagency",
-    "linkedin": "",
-    "twitter": ""
+    "instagram": "https://instagram.com/viral.digitalagency"
   },
   "seo": {
     "titleSuffix": " | Viral Digital Agency Modena",
