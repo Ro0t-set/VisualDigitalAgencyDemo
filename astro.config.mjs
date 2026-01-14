@@ -5,8 +5,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // IMPORTANT: Change this to your production domain
-  site: 'https://tuodominio.it',
+  site: 'https://ro0t-set.github.io',
+  base: '/VisualDigitalAgencyDemo',
 
   integrations: [
     sitemap({
