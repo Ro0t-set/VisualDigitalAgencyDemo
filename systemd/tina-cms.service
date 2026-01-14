@@ -1,0 +1,34 @@
+# TinaCMS Service - Systemd Unit File
+# Copia in: /etc/systemd/system/tina-cms.service
+#
+# Comandi:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable tina-cms
+#   sudo systemctl start tina-cms
+#   sudo systemctl status tina-cms
+#   journalctl -u tina-cms -f  (per vedere i log)
+
+[Unit]
+Description=TinaCMS Backend Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/viralagency
+Environment=NODE_ENV=production
+Environment=PORT=4001
+ExecStart=/usr/bin/node node_modules/.bin/tinacms dev --port 4001
+Restart=on-failure
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=tina-cms
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

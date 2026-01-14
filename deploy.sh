@@ -7,6 +7,7 @@
 # Opzioni:
 #   build     - Solo build del sito
 #   deploy    - Build + deploy su server remoto
+#   setup     - Setup iniziale server (nginx + systemd)
 #   start     - Avvia server locale (per test)
 #   dev       - Avvia dev server con TinaCMS
 # ============================================
@@ -19,31 +20,20 @@ set -e
 REMOTE_USER="root"
 REMOTE_HOST="tuo-server.com"
 REMOTE_PATH="/var/www/viralagency"
+DOMAIN="tuo-dominio.it"
 
 # Colori per output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-log_info() {
-    echo -e "${GREEN}[INFO]${NC} $1"
-}
+log_info() { echo -e "${GREEN}[INFO]${NC} $1"; }
+log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+log_step() { echo -e "${BLUE}[STEP]${NC} $1"; }
 
-log_warn() {
-    echo -e "${YELLOW}[WARN]${NC} $1"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-}
-
-log_step() {
-    echo -e "${BLUE}[STEP]${NC} $1"
-}
-
-# Verifica che npm sia installato
 check_deps() {
     if ! command -v npm &> /dev/null; then
         log_error "npm non trovato. Installa Node.js prima di continuare."
@@ -51,13 +41,11 @@ check_deps() {
     fi
 }
 
-# Installa dipendenze
 install_deps() {
     log_step "Installazione dipendenze..."
     npm install
 }
 
-# Build del sito
 build_site() {
     log_step "Building site..."
     npm run build
@@ -68,21 +56,77 @@ build_site() {
 deploy_remote() {
     log_step "Deploy su $REMOTE_HOST..."
 
-    # Verifica che dist esista
     if [ ! -d "dist" ]; then
         log_error "Cartella dist non trovata. Esegui prima il build."
         exit 1
     fi
 
-    # Rsync per sincronizzare i file
+    # Sync tutto il progetto (serve per TinaCMS)
     rsync -avz --delete \
         --exclude '.git' \
         --exclude 'node_modules' \
-        dist/ \
+        ./ \
         ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/
 
+    # Installa dipendenze e riavvia TinaCMS sul server
+    ssh ${REMOTE_USER}@${REMOTE_HOST} << 'ENDSSH'
+cd /var/www/viralagency
+npm install --production
+sudo systemctl restart tina-cms
+ENDSSH
+
     log_info "Deploy completato!"
-    log_info "Sito disponibile su: https://${REMOTE_HOST}"
+    log_info "Sito: https://${DOMAIN}"
+    log_info "Admin: https://${DOMAIN}/admin"
+}
+
+# Setup iniziale del server
+setup_server() {
+    log_step "Setup iniziale server..."
+
+    ssh ${REMOTE_USER}@${REMOTE_HOST} << ENDSSH
+# Crea directory
+mkdir -p /var/www/viralagency
+mkdir -p /var/www/certbot
+
+# Installa Node.js se non presente
+if ! command -v node &> /dev/null; then
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+fi
+
+# Installa nginx se non presente
+if ! command -v nginx &> /dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y nginx
+fi
+ENDSSH
+
+    # Copia configurazioni
+    log_step "Copiando configurazioni nginx e systemd..."
+    scp nginx/viralagency.conf ${REMOTE_USER}@${REMOTE_HOST}:/etc/nginx/sites-available/
+    scp systemd/tina-cms.service ${REMOTE_USER}@${REMOTE_HOST}:/etc/systemd/system/
+
+    # Sostituisci dominio placeholder con quello reale
+    ssh ${REMOTE_USER}@${REMOTE_HOST} << ENDSSH
+sed -i "s/tuo-dominio.it/${DOMAIN}/g" /etc/nginx/sites-available/viralagency.conf
+
+# Abilita sito nginx
+ln -sf /etc/nginx/sites-available/viralagency.conf /etc/nginx/sites-enabled/
+rm -f /etc/nginx/sites-enabled/default
+
+# Abilita servizio TinaCMS
+systemctl daemon-reload
+systemctl enable tina-cms
+
+# Test nginx (senza SSL per ora)
+nginx -t && systemctl reload nginx
+ENDSSH
+
+    log_info "Setup completato!"
+    log_warn "Per abilitare HTTPS, esegui sul server:"
+    echo "  sudo apt install certbot python3-certbot-nginx"
+    echo "  sudo certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
 }
 
 # Avvia server locale per test
@@ -94,49 +138,22 @@ start_local() {
 # Dev mode con TinaCMS
 start_dev() {
     log_info "Avvio ambiente di sviluppo con TinaCMS..."
-    log_info "CMS disponibile su: http://localhost:4321/admin"
+    log_info "Sito: http://localhost:4321"
+    log_info "Admin: http://localhost:4321/admin"
     npm run dev
 }
 
-# Mostra configurazione nginx suggerita
-show_nginx_config() {
-    echo ""
-    log_info "Configurazione nginx consigliata per il tuo server:"
-    echo ""
-    cat << 'NGINX'
-server {
-    listen 80;
-    server_name tuo-dominio.it www.tuo-dominio.it;
-    return 301 https://$server_name$request_uri;
+# Restart TinaCMS sul server
+restart_tina() {
+    log_step "Riavvio TinaCMS sul server..."
+    ssh ${REMOTE_USER}@${REMOTE_HOST} "sudo systemctl restart tina-cms"
+    log_info "TinaCMS riavviato!"
 }
 
-server {
-    listen 443 ssl http2;
-    server_name tuo-dominio.it www.tuo-dominio.it;
-
-    # SSL (usa certbot per generare i certificati)
-    ssl_certificate /etc/letsencrypt/live/tuo-dominio.it/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/tuo-dominio.it/privkey.pem;
-
-    root /var/www/viralagency;
-    index index.html;
-
-    # Gzip
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
-
-    # Cache static assets
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff2)$ {
-        expires 30d;
-        add_header Cache-Control "public, immutable";
-    }
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-NGINX
-    echo ""
+# Mostra log TinaCMS
+show_logs() {
+    log_info "Log TinaCMS (Ctrl+C per uscire)..."
+    ssh ${REMOTE_USER}@${REMOTE_HOST} "journalctl -u tina-cms -f"
 }
 
 # Main
@@ -152,6 +169,9 @@ case "$1" in
         build_site
         deploy_remote
         ;;
+    setup)
+        setup_server
+        ;;
     start)
         start_local
         ;;
@@ -160,25 +180,30 @@ case "$1" in
         install_deps
         start_dev
         ;;
-    nginx)
-        show_nginx_config
+    restart)
+        restart_tina
+        ;;
+    logs)
+        show_logs
         ;;
     *)
         echo "============================================"
         echo "  DEPLOY SCRIPT - Viral Digital Agency"
         echo "============================================"
         echo ""
-        echo "Uso: $0 {build|deploy|start|dev|nginx}"
+        echo "Uso: $0 {build|deploy|setup|start|dev|restart|logs}"
         echo ""
         echo "Opzioni:"
-        echo "  build   - Build del sito statico (output: ./dist)"
-        echo "  deploy  - Build + deploy su server remoto via rsync"
-        echo "  start   - Avvia server locale (preview del build)"
-        echo "  dev     - Avvia dev server con TinaCMS editor"
-        echo "  nginx   - Mostra configurazione nginx consigliata"
+        echo "  build   - Build del sito statico"
+        echo "  deploy  - Build + deploy su server"
+        echo "  setup   - Setup iniziale server (nginx + systemd)"
+        echo "  start   - Avvia server locale (preview)"
+        echo "  dev     - Avvia dev server con TinaCMS"
+        echo "  restart - Riavvia TinaCMS sul server"
+        echo "  logs    - Mostra log TinaCMS"
         echo ""
-        echo "Prima del deploy, modifica le variabili nel file:"
-        echo "  REMOTE_USER, REMOTE_HOST, REMOTE_PATH"
+        echo "Prima configura le variabili:"
+        echo "  REMOTE_USER, REMOTE_HOST, REMOTE_PATH, DOMAIN"
         echo ""
         exit 1
         ;;
