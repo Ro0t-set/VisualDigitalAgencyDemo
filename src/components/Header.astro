@@ -1,8 +1,8 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-
 // Carica impostazioni globali usando import statico (compatibile con Cloudflare Workers)
-import global from '../../content/settings/global.json';
+import globalSettings from '../../content/settings/global.json';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const navItems = [
   { label: 'Home', href: '#home' },
@@ -19,7 +19,7 @@ const navItems = [
     <div class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo / Company Name -->
       <a href="#home" class="flex items-center group">
-        <img src={global.logo ? `${base}${global.logo}` : `${base}/uploads/image.png`} alt={global.companyName} class="h-14 w-auto group-hover:opacity-80 transition-opacity" />
+        <img src={globalSettings.logo ? `${base}${globalSettings.logo}` : `${base}/uploads/image.png`} alt={globalSettings.companyName} class="h-14 w-auto group-hover:opacity-80 transition-opacity" />
       </a>
 
       <!-- Desktop Navigation -->

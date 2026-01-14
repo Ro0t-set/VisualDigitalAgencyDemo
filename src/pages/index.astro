@@ -3,11 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'lucide-astro';
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-
 // Carica dati da Keystatic usando import statici (compatibile con Cloudflare Workers)
 import homepage from '../../content/pages/homepage.json';
-import global from '../../content/settings/global.json';
+import globalSettings from '../../content/settings/global.json';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Portfolio items usando import.meta.glob
 const portfolioFiles = import.meta.glob('../../content/portfolio/*.json', { eager: true });
@@ -30,8 +30,8 @@ const portfolio = Object.values(portfolioFiles)
       <!-- Logo centrato -->
       <div class="flex justify-center mb-6 md:mb-8">
         <img
-          src={global.logo ? `${base}${global.logo}` : `${base}/uploads/image.png`}
-          alt={global.companyName}
+          src={globalSettings.logo ? `${base}${globalSettings.logo}` : `${base}/uploads/image.png`}
+          alt={globalSettings.companyName}
           class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
         />
       </div>
@@ -176,9 +176,9 @@ const portfolio = Object.values(portfolioFiles)
       </div>
 
       <div class="flex justify-center gap-4 sm:gap-6 reveal-scale">
-        {global.social.instagram && (
+        {globalSettings.social.instagram && (
           <a
-            href={global.social.instagram}
+            href={globalSettings.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
             class="group flex flex-col items-center gap-3 sm:gap-4 p-5 sm:p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
@@ -191,9 +191,9 @@ const portfolio = Object.values(portfolioFiles)
           </a>
         )}
 
-        {global.social.facebook && (
+        {globalSettings.social.facebook && (
           <a
-            href={global.social.facebook}
+            href={globalSettings.social.facebook}
             target="_blank"
             rel="noopener noreferrer"
             class="group flex flex-col items-center gap-3 sm:gap-4 p-5 sm:p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
@@ -229,7 +229,7 @@ const portfolio = Object.values(portfolioFiles)
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Indirizzo</p>
-                <p class="text-gray-300">{global.contact.address}</p>
+                <p class="text-gray-300">{globalSettings.contact.address}</p>
               </div>
             </div>
 
@@ -239,7 +239,7 @@ const portfolio = Object.values(portfolioFiles)
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Telefono</p>
-                <a href={`tel:${global.contact.phone.replace(/\s/g, '')}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{global.contact.phone}</a>
+                <a href={`tel:${globalSettings.contact.phone.replace(/\s/g, '')}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{globalSettings.contact.phone}</a>
               </div>
             </div>
 
@@ -249,7 +249,7 @@ const portfolio = Object.values(portfolioFiles)
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Email</p>
-                <a href={`mailto:${global.contact.email}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{global.contact.email}</a>
+                <a href={`mailto:${globalSettings.contact.email}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{globalSettings.contact.email}</a>
               </div>
             </div>
           </div>
