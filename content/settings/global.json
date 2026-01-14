@@ -1,28 +1,32 @@
 {
-  "companyName": "Azienda Demo",
-  "tagline": "Innovazione al tuo servizio",
+  "companyName": "Viral Digital Agency",
+  "tagline": "Dimmi cosa vuoi e noi faremo meglio",
   "logo": "",
   "colors": {
-    "primary": "#2563eb",
-    "secondary": "#1e40af",
-    "accent": "#3b82f6"
+    "primary": "#8B5CF6",
+    "secondary": "#6D28D9",
+    "accent": "#EC4899"
   },
   "contact": {
-    "email": "info@aziendademo.it",
-    "phone": "+39 02 1234567",
-    "address": "Via Roma 123, 20100 Milano"
+    "email": "info@viralagency.it",
+    "phone": "+39 371 376 7488",
+    "address": "Piazza Tintori 27, Bastiglia (MO) – 41033"
   },
   "social": {
-    "facebook": "https://facebook.com",
-    "instagram": "https://instagram.com",
-    "linkedin": "https://linkedin.com",
-    "twitter": "https://twitter.com"
+    "facebook": "https://facebook.com/ViralAgencyAC",
+    "instagram": "https://instagram.com/viral.digitalagency",
+    "linkedin": "",
+    "twitter": ""
   },
   "seo": {
-    "titleSuffix": " | Azienda Demo",
-    "defaultDescription": "Azienda Demo - Soluzioni innovative per il tuo business. Scopri i nostri servizi e contattaci per una consulenza gratuita."
+    "titleSuffix": " | Viral Digital Agency Modena",
+    "defaultDescription": "Viral Digital Agency - La tua agenzia di social media marketing a Modena. Creiamo contenuti di alta qualità per far crescere la tua presenza online."
   },
   "form": {
     "formspreeId": "your-formspree-id"
+  },
+  "legal": {
+    "piva": "IT04181410368",
+    "codiceDestinatario": "XMXAUP4"
   }
 }

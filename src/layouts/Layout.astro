@@ -55,10 +55,89 @@ const accentColor = settings.colors?.accent || '#3b82f6';
     </style>
   </head>
   <body class="min-h-screen flex flex-col">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <!-- Cursor glow effect -->
+    <div id="cursor-glow" class="cursor-glow" aria-hidden="true"></div>
+
     <Header />
-    <main class="flex-grow">
+    <main id="main-content" class="flex-grow">
       <slot />
     </main>
     <Footer />
+
+    <!-- Cursor glow & animations script -->
+    <script>
+      // Cursor glow effect
+      const cursorGlow = document.getElementById('cursor-glow');
+      let mouseX = 0, mouseY = 0;
+      let glowX = 0, glowY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      // Smooth animation for cursor glow
+      function animateCursor() {
+        glowX += (mouseX - glowX) * 0.1;
+        glowY += (mouseY - glowY) * 0.1;
+
+        if (cursorGlow) {
+          cursorGlow.style.left = glowX + 'px';
+          cursorGlow.style.top = glowY + 'px';
+        }
+
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      // Hide cursor glow when mouse leaves window
+      document.addEventListener('mouseleave', () => {
+        if (cursorGlow) cursorGlow.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        if (cursorGlow) cursorGlow.style.opacity = '1';
+      });
+
+      // Scroll reveal animation with Intersection Observer
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+      };
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Optional: unobserve after animation
+            // revealObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Observe all reveal elements
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach(el => {
+        revealObserver.observe(el);
+      });
+
+      // Magnetic button effect
+      document.querySelectorAll('.magnetic-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e: Event) => {
+          const mouseEvent = e as MouseEvent;
+          const rect = btn.getBoundingClientRect();
+          const x = mouseEvent.clientX - rect.left - rect.width / 2;
+          const y = mouseEvent.clientY - rect.top - rect.height / 2;
+
+          (btn as HTMLElement).style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+          (btn as HTMLElement).style.transform = 'translate(0, 0)';
+        });
+      });
+    </script>
   </body>
 </html>

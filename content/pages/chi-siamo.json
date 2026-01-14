@@ -1,67 +1,69 @@
 {
   "title": "Chi Siamo",
   "seo": {
-    "metaTitle": "Chi Siamo - La Nostra Storia",
-    "metaDescription": "Scopri la storia, i valori e il team dietro la nostra azienda. Dal 2010 al servizio delle imprese italiane."
+    "metaTitle": "Chi Siamo - Viral Digital Agency Modena",
+    "metaDescription": "Scopri Viral Digital Agency: la tua agenzia di social media marketing a Modena. Creatività, strategia e risultati concreti per il tuo business."
   },
   "hero": {
-    "headline": "La Nostra Storia",
-    "subheadline": "Dal 2010 al fianco delle aziende italiane, con passione e dedizione."
+    "headline": "Chi Siamo",
+    "subheadline": "Creativi digitali con la passione per i contenuti che fanno la differenza"
   },
   "sections": [
     {
-      "title": "Chi Siamo",
-      "content": "\\[object Object]\n",
-      "image": "",
-      "imageOnRight": true,
-      "_template": "imageText"
+      "_template": "textSection",
+      "title": "La Nostra Storia",
+      "content": {
+        "type": "root",
+        "children": [
+          {
+            "type": "p",
+            "children": [
+              {
+                "type": "text",
+                "text": "Viral Digital Agency nasce dalla passione per il mondo digitale e dalla convinzione che ogni business meriti di brillare online. Con sede a Bastiglia, in provincia di Modena, siamo specializzati nella creazione di contenuti foto e video di alta qualità per i social media."
+              }
+            ]
+          },
+          {
+            "type": "p",
+            "children": [
+              {
+                "type": "text",
+                "text": "Il nostro motto 'Dimmi cosa vuoi e noi faremo meglio' riflette il nostro impegno a superare sempre le aspettative dei clienti. Crediamo che nell'era del social-first, la differenza tra successo e invisibilità stia nella qualità dei contenuti che pubblichi."
+              }
+            ]
+          }
+        ]
+      }
     },
     {
+      "_template": "featuresGrid",
       "title": "I Nostri Valori",
-      "subtitle": "Principi che guidano ogni nostra azione",
+      "subtitle": "Principi che guidano ogni nostro progetto",
       "features": [
         {
-          "title": "Trasparenza",
-          "description": "Comunicazione chiara e onesta in ogni fase del progetto.",
-          "icon": "shield"
+          "title": "Creatività",
+          "description": "Pensiamo fuori dagli schemi per creare contenuti unici che catturano l'attenzione e si distinguono dalla massa.",
+          "icon": "sparkles"
         },
         {
           "title": "Qualità",
-          "description": "Standard elevati in ogni deliverable, senza compromessi.",
-          "icon": "chart"
+          "description": "Non accettiamo compromessi sulla qualità. Ogni foto, ogni video, ogni contenuto deve essere impeccabile.",
+          "icon": "shield"
         },
         {
-          "title": "Partnership",
-          "description": "Non siamo fornitori, siamo partner nel vostro successo.",
-          "icon": "users"
+          "title": "Risultati",
+          "description": "Non ci limitiamo a creare bei contenuti: ci assicuriamo che portino risultati concreti e misurabili.",
+          "icon": "chart"
         }
-      ],
-      "_template": "featuresGrid"
+      ]
     },
     {
-      "title": "Il Nostro Team",
-      "subtitle": "Professionisti dedicati al tuo successo",
-      "members": [
-        {
-          "name": "Mario Rossi",
-          "role": "CEO & Founder",
-          "photo": "/uploads/Gemini_Generated_Image_h6v1oah6v1oah6v1.png",
-          "bio": "Oltre 15 anni di esperienza nel settore tech. Appassionato di innovazione e strategia aziendale."
-        },
-        {
-          "name": "Laura Bianchi",
-          "role": "Direttore Creativo",
-          "photo": "",
-          "bio": "Designer pluripremiata con focus su UX/UI. Trasforma le idee in esperienze memorabili."
-        },
-        {
-          "name": "Marco Verdi",
-          "role": "CTO",
-          "photo": "",
-          "bio": "Architetto software con passione per le tecnologie emergenti e le soluzioni scalabili."
-        }
-      ],
-      "_template": "teamSection"
+      "_template": "ctaSection",
+      "title": "Lavora con Noi",
+      "subtitle": "Siamo sempre alla ricerca di nuove collaborazioni. Contattaci per scoprire come possiamo aiutarti.",
+      "buttonText": "Contattaci",
+      "buttonLink": "/contatti"
     }
   ]
 }

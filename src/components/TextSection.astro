@@ -61,16 +61,16 @@ function renderRichText(node: any): string {
 }
 ---
 
-<section class="section bg-white">
+<section class="section bg-gradient-to-b from-white to-gray-50">
   <div class="container-custom">
-    <div class="max-w-3xl mx-auto">
+    <div class="max-w-4xl mx-auto">
       {title && (
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+        <h2 class="section-title text-center mb-8">
           {title}
         </h2>
       )}
       {content && (
-        <div class="prose-custom text-gray-600" set:html={renderRichText(content)} />
+        <div class="prose-custom text-gray-600 text-center" set:html={renderRichText(content)} />
       )}
     </div>
   </div>

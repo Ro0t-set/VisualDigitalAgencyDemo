@@ -18,7 +18,7 @@ const { headline, subheadline, backgroundImage, cta, secondaryCta, compact = fal
 ---
 
 <section
-  class={`relative ${compact ? 'py-16 md:py-24' : 'py-24 md:py-32'} ${backgroundImage ? '' : 'bg-gradient-to-br from-gray-50 to-gray-100'}`}
+  class={`relative ${compact ? 'py-20 md:py-28' : 'py-28 md:py-40'} gradient-bg`}
 >
   {backgroundImage && (
     <div class="absolute inset-0 z-0">
@@ -27,34 +27,50 @@ const { headline, subheadline, backgroundImage, cta, secondaryCta, compact = fal
         alt=""
         class="w-full h-full object-cover"
       />
-      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-[#0F0F23]/90 via-[#1E3A5F]/80 to-[#0F0F23]/90"></div>
     </div>
   )}
 
-  <div class={`container-custom relative z-10 ${backgroundImage ? 'text-white' : ''}`}>
-    <div class="max-w-3xl mx-auto text-center">
-      <h1 class={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${!backgroundImage && 'text-gray-900'}`}>
-        {headline}
+  <!-- Animated background elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl floating"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl floating" style="animation-delay: -2s;"></div>
+    <div class="absolute top-1/2 left-1/2 w-72 h-72 bg-blue-300/10 rounded-full blur-3xl floating" style="animation-delay: -4s;"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-8 text-white leading-tight">
+        <span class="gradient-text">{headline}</span>
       </h1>
 
       {subheadline && (
-        <p class={`text-lg md:text-xl mb-8 ${backgroundImage ? 'text-gray-200' : 'text-gray-600'}`}>
+        <p class="text-lg md:text-xl lg:text-2xl mb-10 text-gray-300 max-w-3xl mx-auto leading-relaxed">
           {subheadline}
         </p>
       )}
 
       {(cta || secondaryCta) && (
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
           {cta && (
-            <a href={cta.link} class="btn-primary">
+            <a href={cta.link} class="btn-primary text-lg px-8 py-4">
               {cta.text}
             </a>
           )}
           {secondaryCta && (
-            <a href={secondaryCta.link} class={`btn-outline ${backgroundImage ? 'border-white text-white hover:bg-white hover:text-gray-900' : ''}`}>
+            <a href={secondaryCta.link} class="btn-outline border-white/30 text-white hover:bg-white hover:text-gray-900 text-lg px-8 py-4">
               {secondaryCta.text}
             </a>
           )}
+        </div>
+      )}
+
+      <!-- Scroll indicator -->
+      {!compact && (
+        <div class="mt-16 animate-bounce">
+          <svg class="w-6 h-6 mx-auto text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
         </div>
       )}
     </div>

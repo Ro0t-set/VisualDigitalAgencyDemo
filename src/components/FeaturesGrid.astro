@@ -19,14 +19,14 @@ const { title, subtitle, features } = Astro.props;
 <section class="section bg-white">
   <div class="container-custom">
     {(title || subtitle) && (
-      <div class="text-center mb-12 md:mb-16">
+      <div class="text-center mb-16 md:mb-20">
         {title && (
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 class="section-title">
             {title}
           </h2>
         )}
         {subtitle && (
-          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p class="section-subtitle">
             {subtitle}
           </p>
         )}
@@ -34,17 +34,17 @@ const { title, subtitle, features } = Astro.props;
     )}
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {features.map((feature) => (
-        <div class="p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+      {features.map((feature, index) => (
+        <div class="feature-card" style={`animation-delay: ${index * 100}ms;`}>
           {feature.icon && (
-            <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-              <Icon name={feature.icon} class="w-6 h-6 text-primary" />
+            <div class="icon-wrapper">
+              <Icon name={feature.icon} class="w-7 h-7 text-white" />
             </div>
           )}
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+          <h3 class="text-xl font-bold text-gray-900 mb-3">
             {feature.title}
           </h3>
-          <p class="text-gray-600">
+          <p class="text-gray-600 leading-relaxed">
             {feature.description}
           </p>
         </div>

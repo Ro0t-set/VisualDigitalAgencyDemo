@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 50" fill="none">
+  <defs>
+    <linearGradient id="vGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6"/>
+      <stop offset="50%" style="stop-color:#EC4899"/>
+      <stop offset="100%" style="stop-color:#F97316"/>
+    </linearGradient>
+  </defs>
+  <!-- Stylized V with script/brush style -->
+  <path d="M8 8 C12 8, 16 10, 22 22 C26 30, 30 38, 32 42 C34 38, 38 28, 44 18 C48 12, 52 8, 56 6 C54 8, 50 14, 46 22 C40 34, 36 42, 32 48 C28 42, 22 30, 16 18 C12 10, 8 6, 4 4 C6 6, 8 8, 8 8 Z" fill="url(#vGradient)"/>
+</svg>

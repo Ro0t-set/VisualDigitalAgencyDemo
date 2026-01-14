@@ -1,50 +1,68 @@
 {
   "title": "Home",
   "seo": {
-    "metaTitle": "Home - Soluzioni Innovative per il Tuo Business",
-    "metaDescription": "Scopri come possiamo aiutare la tua azienda a crescere con i nostri servizi di consulenza, sviluppo e marketing digitale."
+    "metaTitle": "Viral Digital Agency Modena - Social Media Marketing",
+    "metaDescription": "La tua agenzia di social media marketing a Modena. Creiamo contenuti foto e video di alta qualità per far crescere la tua presenza online e superare la concorrenza."
   },
   "hero": {
-    "headline": "Trasforma la tua visione in realtà",
-    "subheadline": "Siamo il partner ideale per far crescere il tuo business. Soluzioni innovative, risultati concreti.",
+    "headline": "Dimmi cosa vuoi e noi faremo meglio",
+    "subheadline": "Nell'era del social-first, devi superare i tuoi competitor online prima che loro superino te. Creiamo contenuti di alta qualità che fanno la differenza.",
     "backgroundImage": "",
     "cta": {
       "text": "Scopri i Servizi",
       "link": "/servizi"
     },
     "secondaryCta": {
-      "text": "Contattaci",
+      "text": "Contattaci Ora",
       "link": "/contatti"
     }
   },
   "sections": [
     {
       "_template": "featuresGrid",
-      "title": "Perché Sceglierci",
-      "subtitle": "Competenza, innovazione e dedizione al tuo servizio",
+      "title": "Perché Scegliere Viral Agency",
+      "subtitle": "Trasformiamo la tua presenza digitale con contenuti che fanno la differenza",
       "features": [
         {
-          "title": "Esperienza",
-          "description": "Oltre 10 anni di esperienza nel settore con centinaia di progetti completati.",
+          "title": "Contenuti Virali",
+          "description": "Creiamo foto e video che catturano l'attenzione e generano engagement reale sui social media.",
+          "icon": "camera"
+        },
+        {
+          "title": "Strategia Social",
+          "description": "Sviluppiamo strategie personalizzate per far crescere la tua audience e convertirla in clienti.",
           "icon": "chart"
         },
         {
-          "title": "Innovazione",
-          "description": "Utilizziamo le tecnologie più avanzate per garantire risultati eccellenti.",
-          "icon": "lightbulb"
-        },
-        {
-          "title": "Supporto",
-          "description": "Assistenza dedicata 24/7 per ogni tua esigenza e domanda.",
-          "icon": "users"
+          "title": "Risultati Concreti",
+          "description": "Non promettiamo, dimostriamo. Ogni progetto è supportato da metriche e risultati misurabili.",
+          "icon": "globe"
         }
       ]
     },
     {
+      "_template": "textSection",
+      "title": "L'Era del Social-First",
+      "content": {
+        "type": "root",
+        "children": [
+          {
+            "type": "p",
+            "children": [
+              {
+                "type": "text",
+                "text": "Oggi ogni business opera in un ambiente dove i social media sono il primo punto di contatto con i clienti. La qualità dei tuoi contenuti determina il successo della tua attività online. Noi di Viral Digital Agency siamo specializzati nella creazione di contenuti foto e video di alta qualità che non solo attirano l'attenzione, ma convertono gli spettatori in clienti fedeli."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "_template": "ctaSection",
-      "title": "Pronto a iniziare?",
-      "subtitle": "Contattaci oggi per una consulenza gratuita e scopri come possiamo aiutarti.",
-      "buttonText": "Richiedi Preventivo",
+      "title": "Pronto a Diventare Virale?",
+      "subtitle": "Contattaci oggi per una consulenza gratuita e scopri come possiamo trasformare la tua presenza online.",
+      "buttonText": "Inizia Ora",
       "buttonLink": "/contatti"
     }
   ]

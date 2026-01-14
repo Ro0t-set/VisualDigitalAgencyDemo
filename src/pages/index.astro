@@ -1,95 +1,250 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import FeaturesGrid from '../components/FeaturesGrid.astro';
-import CtaSection from '../components/CtaSection.astro';
-import ServiceCard from '../components/ServiceCard.astro';
-
-// Import page content from Tina
-import pageContent from '../../content/pages/home.json';
-
-// Import services and filter featured ones
-import consulenza from '../../content/services/consulenza-strategica.json';
-import sviluppo from '../../content/services/sviluppo-web.json';
-import marketing from '../../content/services/marketing-digitale.json';
-
-const allServices = [consulenza, sviluppo, marketing];
-const featuredServices = allServices
-  .filter(s => s.featured)
-  .sort((a, b) => (a.order || 0) - (b.order || 0));
-
-const { hero, sections, seo } = pageContent;
+import ContactForm from '../components/ContactForm.astro';
+import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'lucide-astro';
 ---
 
-<Layout title={seo?.metaTitle || pageContent.title} description={seo?.metaDescription}>
+<Layout title="Viral Digital Agency Modena" description="Viral Digital Agency Modena – Dicci ciò che vuoi e noi faremo meglio. La tua agenzia di marketing specializzata in foto e video di alta qualità per i social media.">
+
   <!-- Hero Section -->
-  {hero && (
-    <Hero
-      headline={hero.headline || ''}
-      subheadline={hero.subheadline}
-      backgroundImage={hero.backgroundImage}
-      cta={hero.cta}
-      secondaryCta={hero.secondaryCta}
-    />
-  )}
+  <section
+    id="home"
+    class="relative min-h-screen flex items-center hero-bg overflow-hidden"
+  >
+    <!-- Animated background - color shifting lights -->
+    <div class="hero-animated-bg"></div>
 
-  <!-- Featured Services Section -->
-  {featuredServices.length > 0 && (
-    <section class="section bg-gray-50">
-      <div class="container-custom">
-        <div class="text-center mb-12 md:mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            I Nostri Servizi
-          </h2>
-          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-            Soluzioni complete per ogni esigenza del tuo business
-          </p>
-        </div>
+    <div class="container-custom relative z-10 pt-24 pb-12">
+      <!-- Logo centrato -->
+      <div class="flex justify-center mb-8">
+        <img
+          src="/uploads/image.png"
+          alt="Viral Digital Agency"
+          class="w-full max-w-md md:max-w-lg lg:max-w-xl"
+        />
+      </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredServices.map((service) => (
-            <ServiceCard
-              title={service.title}
-              description={service.shortDescription || ''}
-              icon={service.icon}
-              image={service.image}
-              features={service.features}
-            />
-          ))}
-        </div>
-
-        <div class="text-center mt-12">
-          <a href="/servizi" class="btn-outline">
-            Vedi tutti i servizi
+      <!-- Text Content centrato -->
+      <div class="text-center max-w-3xl mx-auto">
+        <p class="text-[#3B5998] text-lg md:text-xl mb-6 uppercase tracking-widest font-semibold">La tua agenzia di Marketing</p>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white leading-tight">
+          Dicci ciò che vuoi e noi faremo meglio
+        </h1>
+        <p class="text-lg md:text-xl text-gray-300 mb-8">
+          Viviamo nell'era social e tu non l'hai ancora capito. Muoviti a polverizzare la tua concorrenza online prima che lo facciano loro.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#servizi" class="btn-primary text-lg px-8 py-4">
+            Scopri di più
+          </a>
+          <a href="#contatti" class="border-2 border-white/30 text-white hover:bg-white hover:text-[#3B5998] text-lg px-8 py-4 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center">
+            Contattaci
           </a>
         </div>
       </div>
-    </section>
-  )}
 
-  <!-- Dynamic Sections from Tina -->
-  {sections?.map((section: any) => {
-    if (section._template === 'featuresGrid' && section.features) {
-      return (
-        <FeaturesGrid
-          title={section.title}
-          subtitle={section.subtitle}
-          features={section.features}
-        />
-      );
-    }
+      <!-- Scroll indicator -->
+      <div class="mt-16 text-center">
+        <a href="#about" class="text-white/50 hover:text-white transition-colors inline-block" aria-label="Scorri verso il basso">
+          <ArrowDown class="w-8 h-8 mx-auto animate-bounce" />
+        </a>
+      </div>
+    </div>
+  </section>
 
-    if (section._template === 'ctaSection') {
-      return (
-        <CtaSection
-          title={section.title || ''}
-          subtitle={section.subtitle}
-          buttonText={section.buttonText || 'Contattaci'}
-          buttonLink={section.buttonLink || '/contatti'}
-        />
-      );
-    }
+  <!-- About Section -->
+  <section
+    id="about"
+    class="section bg-cover bg-center bg-no-repeat bg-fixed"
+    style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.viralagency.it/wp-content/uploads/2025/02/photo-1499155286265-79a9dc9c6380.jpeg');"
+  >
+    <div class="container-custom">
+      <div class="max-w-3xl mx-auto text-center reveal">
+        <p class="text-white/80 uppercase tracking-widest mb-4 font-semibold">About su di noi</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8">
+          Dimmi cosa vuoi e noi faremo meglio
+        </h2>
+        <p class="text-xl text-white/90 leading-relaxed">
+          Viviamo nell'era social e tu non l'hai ancora capito. Muoviti a polverizzare la tua concorrenza online prima che lo facciano loro.
+        </p>
+      </div>
+    </div>
+  </section>
 
-    return null;
-  })}
+  <!-- Our Job Section -->
+  <section id="servizi" class="section bg-gray-50">
+    <div class="container-custom">
+      <div class="max-w-3xl mx-auto text-center reveal">
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">Our Job</p>
+        <h2 class="section-title mb-6">Cosa facciamo</h2>
+        <p class="text-xl text-gray-600 leading-relaxed mb-8">
+          Creazione e gestione contenuti social
+        </p>
+        <div class="flex justify-center">
+          <div class="icon-wrapper mb-6">
+            <Video class="w-10 h-10 text-white" />
+          </div>
+        </div>
+        <p class="text-xl md:text-2xl text-gray-700 leading-relaxed">
+          La nostra specializzazione sono foto e video di alta qualità per far prendere il volo alla tua vetrina online.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video/Trailer Section -->
+  <section
+    id="trailer"
+    class="section bg-cover bg-center bg-no-repeat bg-fixed"
+    style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://www.viralagency.it/wp-content/uploads/2025/02/photo-1508179522353-11ba468c4a1c.jpeg');"
+  >
+    <div class="container-custom relative z-10">
+      <div class="text-center mb-12 reveal">
+        <p class="text-white/80 uppercase tracking-widest mb-4 font-semibold">immergiti nel trailer</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8">
+          Guarda ora
+        </h2>
+      </div>
+
+      <!-- Video placeholder with play button -->
+      <div class="max-w-4xl mx-auto reveal-scale">
+        <div class="relative aspect-video rounded-2xl overflow-hidden glass-card group cursor-pointer tilt-card">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-blue-800/50 flex items-center justify-center">
+            <div class="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <img
+                src="/uploads/play-button.png"
+                alt="Play"
+                class="w-full h-full object-contain drop-shadow-2xl"
+              />
+            </div>
+          </div>
+          <div class="absolute bottom-4 left-4 right-4 text-center">
+            <p class="text-white/80 text-sm">Clicca per vedere il nostro showreel</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="section bg-white">
+    <div class="container-custom">
+      <div class="text-center mb-16 reveal-scale">
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">i nostri lavori</p>
+        <h2 class="section-title mb-4">Portfolio</h2>
+        <p class="text-lg text-gray-600">Our Gallery</p>
+      </div>
+
+      <!-- Gallery Grid with real images -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 stagger-children">
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+          <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-lg img-zoom">
+            <img
+              src={`/uploads/gallery/${item}.png`}
+              alt={`Progetto ${item}`}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+              <p class="text-white text-sm font-medium">Progetto {item}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Section -->
+  <section id="social" class="section bg-gradient-to-b from-gray-50 to-white">
+    <div class="container-custom">
+      <div class="text-center mb-12 reveal">
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">seguici sui nostri social</p>
+        <h2 class="section-title mb-4">Restiamo connessi</h2>
+      </div>
+
+      <div class="flex justify-center gap-6 reveal-scale">
+        <a
+          href="https://instagram.com/viral.digitalagency"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex flex-col items-center gap-4 p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 tilt-card"
+          aria-label="Seguici su Instagram"
+        >
+          <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <Instagram class="w-8 h-8 text-white" />
+          </div>
+          <span class="text-gray-700 font-semibold">Instagram</span>
+        </a>
+
+        <a
+          href="https://facebook.com/ViralAgencyAC"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex flex-col items-center gap-4 p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 tilt-card"
+          aria-label="Seguici su Facebook"
+        >
+          <div class="w-16 h-16 rounded-xl bg-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <Facebook class="w-8 h-8 text-white" />
+          </div>
+          <span class="text-gray-700 font-semibold">Facebook</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contatti" class="section cta-section noise-overlay">
+    <div class="container-custom relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <!-- Contact Info -->
+        <div class="text-white reveal-left">
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8">
+            Contattaci
+          </h2>
+          <p class="text-gray-300 text-lg mb-10 leading-relaxed">
+            Sei pronto a far decollare la tua presenza online? Contattaci per una consulenza gratuita.
+          </p>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-[#3B5998]/20 flex items-center justify-center shrink-0">
+                <MapPin class="w-6 h-6 text-[#5B8BD4]" />
+              </div>
+              <div>
+                <p class="text-white font-semibold mb-1">Indirizzo</p>
+                <p class="text-gray-300">Piazza Tintori 27, Bastiglia (MO) – 41033</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-[#3B5998]/20 flex items-center justify-center shrink-0">
+                <Phone class="w-6 h-6 text-[#5B8BD4]" />
+              </div>
+              <div>
+                <p class="text-white font-semibold mb-1">Telefono</p>
+                <a href="tel:3713767488" class="text-gray-300 hover:text-[#5B8BD4] transition-colors">3713767488</a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-[#3B5998]/20 flex items-center justify-center shrink-0">
+                <Mail class="w-6 h-6 text-[#5B8BD4]" />
+              </div>
+              <div>
+                <p class="text-white font-semibold mb-1">Email</p>
+                <a href="mailto:info@viralagency.it" class="text-gray-300 hover:text-[#5B8BD4] transition-colors">info@viralagency.it</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="reveal-right">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
 </Layout>

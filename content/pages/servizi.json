@@ -1,17 +1,54 @@
 {
   "title": "Servizi",
   "seo": {
-    "metaTitle": "I Nostri Servizi",
-    "metaDescription": "Scopri la gamma completa dei nostri servizi: consulenza strategica, sviluppo web, marketing digitale e molto altro."
+    "metaTitle": "I Nostri Servizi - Viral Digital Agency Modena",
+    "metaDescription": "Scopri i nostri servizi di social media marketing: creazione contenuti foto e video, gestione social media, strategie digitali personalizzate."
   },
   "hero": {
     "headline": "I Nostri Servizi",
-    "subheadline": "Soluzioni complete per ogni esigenza del tuo business"
+    "subheadline": "Contenuti di alta qualità per dominare i social media"
   },
   "sections": [
     {
+      "_template": "featuresGrid",
+      "title": "Cosa Facciamo",
+      "subtitle": "Servizi completi per la tua presenza digitale",
+      "features": [
+        {
+          "title": "Content Creation",
+          "description": "Creiamo foto e video professionali che catturano l'attenzione del tuo pubblico e raccontano la storia del tuo brand in modo coinvolgente.",
+          "icon": "camera"
+        },
+        {
+          "title": "Video Production",
+          "description": "Produciamo video di alta qualità per social media, reel, TikTok, YouTube e tutte le piattaforme che contano per il tuo business.",
+          "icon": "video"
+        },
+        {
+          "title": "Social Media Management",
+          "description": "Gestiamo i tuoi canali social con strategia e creatività, pianificando contenuti che generano engagement e convertono.",
+          "icon": "trending"
+        },
+        {
+          "title": "Strategia Digitale",
+          "description": "Analizziamo il tuo mercato e sviluppiamo strategie personalizzate per far crescere la tua presenza online e raggiungere i tuoi obiettivi.",
+          "icon": "chart"
+        },
+        {
+          "title": "Brand Identity",
+          "description": "Definiamo l'identità visiva del tuo brand sui social, creando un linguaggio coerente che ti distingue dalla concorrenza.",
+          "icon": "sparkles"
+        },
+        {
+          "title": "Influencer Marketing",
+          "description": "Connettiamo il tuo brand con gli influencer giusti per amplificare il tuo messaggio e raggiungere nuove audience.",
+          "icon": "megaphone"
+        }
+      ]
+    },
+    {
       "_template": "textSection",
-      "title": "Come Possiamo Aiutarti",
+      "title": "Il Nostro Approccio",
       "content": {
         "type": "root",
         "children": [
@@ -20,7 +57,16 @@
             "children": [
               {
                 "type": "text",
-                "text": "Offriamo una gamma completa di servizi pensati per supportare la crescita del tuo business. Dalla strategia all'implementazione, siamo al tuo fianco in ogni fase del percorso."
+                "text": "Nell'era del social-first, la qualità dei contenuti fa la differenza tra essere notati o essere ignorati. Il nostro team combina creatività, competenze tecniche e conoscenza approfondita degli algoritmi per creare contenuti che non solo attraggono l'attenzione, ma la mantengono e la convertono in risultati concreti per il tuo business."
+              }
+            ]
+          },
+          {
+            "type": "p",
+            "children": [
+              {
+                "type": "text",
+                "text": "Ogni progetto parte da un'analisi approfondita del tuo brand, del tuo pubblico target e dei tuoi competitor. Questo ci permette di sviluppare una strategia su misura che massimizza il ritorno sul tuo investimento in social media marketing."
               }
             ]
           }
@@ -29,9 +75,9 @@
     },
     {
       "_template": "ctaSection",
-      "title": "Non trovi quello che cerchi?",
-      "subtitle": "Contattaci per discutere le tue esigenze specifiche. Creiamo soluzioni su misura.",
-      "buttonText": "Parliamone",
+      "title": "Pronto a Rivoluzionare la Tua Presenza Online?",
+      "subtitle": "Contattaci per una consulenza gratuita e scopri come possiamo aiutarti a raggiungere i tuoi obiettivi.",
+      "buttonText": "Richiedi Preventivo",
       "buttonLink": "/contatti"
     }
   ]
