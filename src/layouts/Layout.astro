@@ -43,6 +43,9 @@ const accentColor = settings.colors?.accent || '#3b82f6';
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Netlify Identity Widget for CMS -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
     <title>{fullTitle}</title>
 
     <!-- Inject brand colors as CSS variables -->
@@ -138,6 +141,18 @@ const accentColor = settings.colors?.accent || '#3b82f6';
           (btn as HTMLElement).style.transform = 'translate(0, 0)';
         });
       });
+
+      // Netlify Identity redirect after login
+      const netlifyIdentity = (window as any).netlifyIdentity;
+      if (netlifyIdentity) {
+        netlifyIdentity.on("init", (user: unknown) => {
+          if (!user) {
+            netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
     </script>
   </body>
 </html>
