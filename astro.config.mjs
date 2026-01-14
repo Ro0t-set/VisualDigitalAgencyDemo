@@ -5,8 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ro0t-set.github.io',
-  base: '/VisualDigitalAgencyDemo',
+  site: 'https://tommasopatriti.me',
 
   integrations: [
     sitemap({
