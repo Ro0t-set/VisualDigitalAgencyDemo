@@ -5,27 +5,22 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
-import { readFileSync } from 'fs';
 
-// Determina ambiente: GitHub Pages (static) o Netlify/Dev (server + Keystatic)
-let isGitHubPages = false;
-try {
-  const envFile = readFileSync('.env', 'utf-8');
-  isGitHubPages = envFile.includes('DEPLOY_TARGET=github');
-} catch {
-  // .env non esiste, default: server mode con Keystatic
-}
+// Determina ambiente: CI/CD (static) o Dev locale (server + Keystatic)
+// CF_PAGES = Cloudflare Pages, CI = GitHub Actions, NETLIFY = Netlify
+const isProduction = process.env.CF_PAGES === '1' || process.env.CI === 'true' || process.env.NETLIFY === 'true';
+const isGitHubPages = process.env.CI === 'true' && !process.env.CF_PAGES && !process.env.NETLIFY;
 
 // https://astro.build/config
 export default defineConfig({
-  site: isGitHubPages ? 'https://tommasopatriti.me' : 'https://tommasopatriti.me',
+  site: 'https://tommasopatriti.me',
   base: isGitHubPages ? '/VisualDigitalAgencyDemo' : '',
-  output: isGitHubPages ? 'static' : 'server',
+  output: isProduction ? 'static' : 'server',
 
   integrations: [
     react(),
     markdoc(),
-    ...(isGitHubPages ? [] : [keystatic()]),
+    ...(isProduction ? [] : [keystatic()]),
     sitemap({
       i18n: {
         defaultLocale: 'it',
