@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'lucide-astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <Layout title="Viral Digital Agency Modena" description="Viral Digital Agency Modena – Dicci ciò che vuoi e noi faremo meglio. La tua agenzia di marketing specializzata in foto e video di alta qualità per i social media.">
@@ -18,7 +20,7 @@ import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'luci
       <!-- Logo centrato -->
       <div class="flex justify-center mb-6 md:mb-8">
         <img
-          src="/uploads/image.png"
+          src={`${base}uploads/image.png`}
           alt="Viral Digital Agency"
           class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
         />
@@ -112,7 +114,7 @@ import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'luci
           <div class="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-blue-800/50 flex items-center justify-center">
             <div class="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <img
-                src="/uploads/play-button.png"
+                src={`${base}uploads/play-button.png`}
                 alt="Play"
                 class="w-full h-full object-contain drop-shadow-2xl"
               />
@@ -140,7 +142,7 @@ import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'luci
         {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
           <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-lg img-zoom">
             <img
-              src={`/uploads/gallery/${item}.png`}
+              src={`${base}uploads/gallery/${item}.png`}
               alt={`Progetto ${item}`}
               class="w-full h-full object-cover"
               loading="lazy"
