@@ -4,16 +4,20 @@ import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook, Camera, Megaphone } from 'lucide-astro';
 
-// Carica dati da Keystatic
+// Carica dati da Keystatic (import statici compatibili con Cloudflare)
 import homepage from '../../content/pages/homepage.json';
 import globalSettings from '../../content/settings/global.json';
-import { reader } from '../lib/keystatic';
 
 // Import immagini statiche per ottimizzazione
 import logoImage from '../assets/images/uploads/logo.png';
 import playButtonImage from '../assets/images/uploads/play-button.png';
 
-// Import dinamico immagini gallery per ottimizzazione Astro
+// Import dinamico portfolio JSON e immagini (eseguito a build time)
+const portfolioFiles = import.meta.glob<{ default: any }>(
+  '/content/portfolio/*.json',
+  { eager: true }
+);
+
 const galleryImages = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/images/gallery/**/*.{png,jpg,jpeg,webp}',
   { eager: true }
@@ -31,14 +35,16 @@ function isSvg(path: string | null | undefined): boolean {
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Portfolio items - usando Keystatic Reader API
-const portfolioEntries = await reader.collections.portfolio.all();
-const portfolio = portfolioEntries
-  .map((entry) => ({
-    ...entry.entry,
-    slug: entry.slug,
-    optimizedImage: getOptimizedImage(entry.entry.image)
-  }))
+// Portfolio items - caricati staticamente
+const portfolio = Object.entries(portfolioFiles)
+  .map(([filePath, mod]) => {
+    const slug = filePath.split('/').pop()?.replace('.json', '') || '';
+    return {
+      ...mod.default,
+      slug,
+      optimizedImage: getOptimizedImage(mod.default.image)
+    };
+  })
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
