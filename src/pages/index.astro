@@ -171,8 +171,8 @@ const portfolio = Object.values(portfolioFiles)
   <section id="social" class="section bg-gradient-to-b from-gray-50 to-white">
     <div class="container-custom">
       <div class="text-center mb-12 reveal">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">{homepage.social.badge}</p>
-        <h2 class="section-title mb-4">{homepage.social.title}</h2>
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4">{homepage.social.badge}</p>
+        <h2 class="text-3xl md:text-4xl text-gray-800 mb-4">{homepage.social.title}</h2>
       </div>
 
       <div class="flex justify-center gap-6 reveal-scale">
@@ -181,10 +181,10 @@ const portfolio = Object.values(portfolioFiles)
             href={globalSettings.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
+            class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform duration-300"
             aria-label="Seguici su Instagram"
           >
-            <Instagram class="w-7 h-7 text-white" />
+            <Instagram class="w-5 h-5 text-white" strokeWidth={1.5} />
           </a>
         )}
 
@@ -193,10 +193,10 @@ const portfolio = Object.values(portfolioFiles)
             href={globalSettings.social.facebook}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
+            class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center hover:scale-110 transition-transform duration-300"
             aria-label="Seguici su Facebook"
           >
-            <Facebook class="w-7 h-7 text-white" />
+            <Facebook class="w-5 h-5 text-white" strokeWidth={1.5} />
           </a>
         )}
       </div>
