@@ -32,6 +32,32 @@ const ogImageURL = new URL(ogImage, Astro.site);
 const primaryColor = settings.colors?.primary || '#2563eb';
 const secondaryColor = settings.colors?.secondary || '#1e40af';
 const accentColor = settings.colors?.accent || '#3b82f6';
+
+// Schema.org JSON-LD
+const schemaOrg = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": settings.companyName,
+  "description": metaDescription,
+  "url": Astro.site?.toString(),
+  "logo": ogImageURL.toString(),
+  "image": ogImageURL.toString(),
+  "telephone": settings.contact?.phone,
+  "email": settings.contact?.email,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": settings.contact?.address,
+    "addressLocality": "Bastiglia",
+    "addressRegion": "MO",
+    "postalCode": "41033",
+    "addressCountry": "IT"
+  },
+  "sameAs": [
+    settings.social?.facebook,
+    settings.social?.instagram
+  ].filter(Boolean),
+  "priceRange": "€€"
+};
 ---
 
 <!doctype html>
@@ -62,6 +88,9 @@ const accentColor = settings.colors?.accent || '#3b82f6';
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Schema.org JSON-LD -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
 
     <title>{fullTitle}</title>
 
