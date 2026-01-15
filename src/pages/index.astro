@@ -8,11 +8,26 @@ import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook, Camera, Meg
 import homepage from '../../content/pages/homepage.json';
 import globalSettings from '../../content/settings/global.json';
 import { reader } from '../lib/keystatic';
-import { getImage, isSvg } from '../lib/images';
 
 // Import immagini statiche per ottimizzazione
 import logoImage from '../assets/images/uploads/logo.png';
 import playButtonImage from '../assets/images/uploads/play-button.png';
+
+// Import dinamico immagini gallery per ottimizzazione Astro
+const galleryImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/gallery/**/*.{png,jpg,jpeg,webp}',
+  { eager: true }
+);
+
+function getOptimizedImage(path: string | null | undefined): ImageMetadata | null {
+  if (!path) return null;
+  const image = galleryImages[path];
+  return image?.default ?? null;
+}
+
+function isSvg(path: string | null | undefined): boolean {
+  return path?.toLowerCase().endsWith('.svg') ?? false;
+}
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -22,7 +37,7 @@ const portfolio = portfolioEntries
   .map((entry) => ({
     ...entry.entry,
     slug: entry.slug,
-    optimizedImage: getImage(entry.entry.image)
+    optimizedImage: getOptimizedImage(entry.entry.image)
   }))
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
