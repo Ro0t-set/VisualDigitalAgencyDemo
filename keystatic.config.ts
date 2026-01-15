@@ -21,8 +21,8 @@ export default config({
         tagline: fields.text({ label: 'Tagline' }),
         logo: fields.image({
           label: 'Logo',
-          directory: 'public/uploads',
-          publicPath: '/uploads/',
+          directory: 'src/assets/images/uploads',
+          publicPath: '/src/assets/images/uploads/',
         }),
         colors: fields.object({
           primary: fields.text({ label: 'Colore Primario', defaultValue: '#8B5CF6' }),
@@ -138,8 +138,8 @@ export default config({
         title: fields.slug({ name: { label: 'Titolo' } }),
         image: fields.image({
           label: 'Immagine',
-          directory: 'public/uploads/gallery',
-          publicPath: '/uploads/gallery/',
+          directory: 'src/assets/images/gallery',
+          publicPath: '/src/assets/images/gallery/',
           validation: { isRequired: true },
         }),
         description: fields.text({ label: 'Descrizione', multiline: true }),

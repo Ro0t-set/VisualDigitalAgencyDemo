@@ -1,19 +1,30 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook, Camera, Megaphone } from 'lucide-astro';
 
-// Carica dati da Keystatic usando import statici (compatibile con Cloudflare Workers)
+// Carica dati da Keystatic
 import homepage from '../../content/pages/homepage.json';
 import globalSettings from '../../content/settings/global.json';
+import { reader } from '../lib/keystatic';
+import { getImage, isSvg } from '../lib/images';
+
+// Import immagini statiche per ottimizzazione
+import logoImage from '../assets/images/uploads/logo.png';
+import playButtonImage from '../assets/images/uploads/play-button.png';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Portfolio items usando import.meta.glob
-const portfolioFiles = import.meta.glob('../../content/portfolio/*.json', { eager: true });
-const portfolio = Object.values(portfolioFiles)
-  .map((mod: any) => mod.default || mod)
-  .sort((a: any, b: any) => a.order - b.order);
+// Portfolio items - usando Keystatic Reader API
+const portfolioEntries = await reader.collections.portfolio.all();
+const portfolio = portfolioEntries
+  .map((entry) => ({
+    ...entry.entry,
+    slug: entry.slug,
+    optimizedImage: getImage(entry.entry.image)
+  }))
+  .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <Layout title={homepage.seo.title} description={homepage.seo.description}>
@@ -29,10 +40,11 @@ const portfolio = Object.values(portfolioFiles)
     <div class="container-custom relative z-10 pt-20 md:pt-24 pb-8 md:pb-12">
       <!-- Logo centrato -->
       <div class="flex justify-center mb-6 md:mb-8">
-        <img
-          src={globalSettings.logo ? `${base}${globalSettings.logo}` : `${base}/uploads/image.png`}
+        <Image
+          src={logoImage}
           alt={globalSettings.companyName}
           class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
+          loading="eager"
         />
       </div>
 
@@ -129,9 +141,11 @@ const portfolio = Object.values(portfolioFiles)
         <div class="relative aspect-video rounded-2xl overflow-hidden glass-card group cursor-pointer tilt-card">
           <div class="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-blue-800/50 flex items-center justify-center">
             <div class="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <img
-                src={`${base}/uploads/play-button.png`}
+              <Image
+                src={playButtonImage}
                 alt="Play"
+                width={128}
+                height={128}
                 class="w-full h-full object-contain drop-shadow-2xl"
               />
             </div>
@@ -157,12 +171,26 @@ const portfolio = Object.values(portfolioFiles)
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 stagger-children">
         {portfolio.map((item) => (
           <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-lg img-zoom">
-            <img
-              src={`${base}${item.image}`}
-              alt={item.description || item.title}
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
+            {item.optimizedImage && !isSvg(item.image) ? (
+              <Image
+                src={item.optimizedImage}
+                alt={item.description || item.title}
+                width={400}
+                height={400}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <img
+                src={`${base}${item.image}`}
+                alt={item.description || item.title}
+                class="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="400"
+              />
+            )}
             <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
               <p class="text-white text-sm font-medium">{item.description || item.title}</p>

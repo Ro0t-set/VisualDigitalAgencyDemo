@@ -1,6 +1,6 @@
 {
   "title": "progetto-8",
-  "image": "/uploads/gallery/8.png",
+  "image": "/src/assets/images/gallery/8.png",
   "description": "Progetto 8",
   "order": 8,
   "featured": true
