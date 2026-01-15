@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
-import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook } from 'lucide-astro';
+import { MapPin, Phone, Mail, Video, ArrowDown, Instagram, Facebook, Camera, Megaphone } from 'lucide-astro';
 
 // Carica dati da Keystatic usando import statici (compatibile con Cloudflare Workers)
 import homepage from '../../content/pages/homepage.json';
@@ -38,8 +38,8 @@ const portfolio = Object.values(portfolioFiles)
 
       <!-- Text Content centrato -->
       <div class="text-center max-w-3xl mx-auto px-2">
-        <p class="text-[#3B5998] text-sm sm:text-lg md:text-xl mb-4 md:mb-6 uppercase tracking-wider md:tracking-widest font-semibold">{homepage.hero.badge}</p>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-white leading-tight">
+        <p class="text-[#3B5998] text-sm sm:text-lg md:text-xl mb-4 md:mb-6 uppercase tracking-wider md:tracking-widest">{homepage.hero.badge}</p>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 text-white leading-tight">
           {homepage.hero.title}
         </h1>
         <p class="text-base sm:text-lg md:text-xl text-gray-300 mb-6 md:mb-8 leading-relaxed">
@@ -72,8 +72,8 @@ const portfolio = Object.values(portfolioFiles)
   >
     <div class="container-custom">
       <div class="max-w-3xl mx-auto text-center reveal">
-        <p class="text-white/80 uppercase tracking-widest mb-4 font-semibold">{homepage.about.badge}</p>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
+        <p class="text-white/80 uppercase tracking-widest mb-4">{homepage.about.badge}</p>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-6 md:mb-8">
           {homepage.about.title}
         </h2>
         <p class="text-base sm:text-xl text-white/90 leading-relaxed">
@@ -87,14 +87,20 @@ const portfolio = Object.values(portfolioFiles)
   <section id="servizi" class="section bg-gray-50">
     <div class="container-custom">
       <div class="max-w-3xl mx-auto text-center reveal">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">{homepage.services.badge}</p>
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4">{homepage.services.badge}</p>
         <h2 class="section-title mb-6">{homepage.services.title}</h2>
         <p class="text-xl text-gray-600 leading-relaxed mb-8">
           {homepage.services.subtitle}
         </p>
-        <div class="flex justify-center">
-          <div class="icon-wrapper mb-6">
-            <Video class="w-10 h-10 text-white" />
+        <div class="flex justify-center gap-6">
+          <div class="icon-wrapper">
+            <Camera class="w-8 h-8 text-white" />
+          </div>
+          <div class="icon-wrapper">
+            <Video class="w-8 h-8 text-white" />
+          </div>
+          <div class="icon-wrapper">
+            <Megaphone class="w-8 h-8 text-white" />
           </div>
         </div>
         <p class="text-xl md:text-2xl text-gray-700 leading-relaxed">
@@ -112,8 +118,8 @@ const portfolio = Object.values(portfolioFiles)
   >
     <div class="container-custom relative z-10">
       <div class="text-center mb-12 reveal">
-        <p class="text-white/80 uppercase tracking-wider sm:tracking-widest mb-3 sm:mb-4 font-semibold text-sm sm:text-base">{homepage.trailer.badge}</p>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
+        <p class="text-white/80 uppercase tracking-wider sm:tracking-widest mb-3 sm:mb-4 text-sm sm:text-base">{homepage.trailer.badge}</p>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-6 md:mb-8">
           {homepage.trailer.title}
         </h2>
       </div>
@@ -142,7 +148,7 @@ const portfolio = Object.values(portfolioFiles)
   <section id="portfolio" class="section bg-white">
     <div class="container-custom">
       <div class="text-center mb-16 reveal-scale">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4 font-semibold">{homepage.portfolio.badge}</p>
+        <p class="text-[#3B5998] uppercase tracking-widest mb-4">{homepage.portfolio.badge}</p>
         <h2 class="section-title mb-4">{homepage.portfolio.title}</h2>
         <p class="text-lg text-gray-600">{homepage.portfolio.subtitle}</p>
       </div>
@@ -184,7 +190,7 @@ const portfolio = Object.values(portfolioFiles)
             class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform duration-300"
             aria-label="Seguici su Instagram"
           >
-            <Instagram class="w-5 h-5 text-white" strokeWidth={1.5} />
+            <Instagram class="w-5 h-5 text-white" strokeWidth={1} />
           </a>
         )}
 
@@ -196,7 +202,7 @@ const portfolio = Object.values(portfolioFiles)
             class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center hover:scale-110 transition-transform duration-300"
             aria-label="Seguici su Facebook"
           >
-            <Facebook class="w-5 h-5 text-white" strokeWidth={1.5} />
+            <Facebook class="w-5 h-5 text-white" strokeWidth={1} />
           </a>
         )}
       </div>
@@ -209,7 +215,7 @@ const portfolio = Object.values(portfolioFiles)
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         <!-- Contact Info -->
         <div class="text-white reveal-left">
-          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
+          <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-6 md:mb-8">
             {homepage.contact.title}
           </h2>
           <p class="text-gray-300 text-base sm:text-lg mb-8 md:mb-10 leading-relaxed">
