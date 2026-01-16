@@ -140,6 +140,54 @@ body {
   border-color: var(--color-primary);
 }
 
+.border-dark-light {
+  border-color: var(--color-dark-light);
+}
+
+/* Header/Footer dark background */
+.bg-header {
+  background-color: var(--color-dark);
+}
+
+/* Primary color with opacity */
+.bg-primary-20 {
+  background-color: rgba(59, 89, 152, 0.2);
+}
+
+/* Overlay gradients for background images */
+.overlay-dark {
+  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.5), rgba(13, 17, 23, 0.5));
+}
+
+.overlay-dark-60 {
+  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.6), rgba(13, 17, 23, 0.6));
+}
+
+/* Hero gradient overlay */
+.hero-overlay {
+  background: linear-gradient(to bottom right,
+    rgba(13, 17, 23, 0.9),
+    rgba(30, 58, 95, 0.8),
+    rgba(13, 17, 23, 0.9));
+}
+
+/* Background image sections with overlay */
+.section-bg-overlay {
+  position: relative;
+}
+
+.section-bg-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.5), rgba(13, 17, 23, 0.5));
+  z-index: 1;
+}
+
+.section-bg-overlay-60::before {
+  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.6), rgba(13, 17, 23, 0.6));
+}
+
 /* Gradient text effect */
 .gradient-text {
   background: var(--gradient-primary);

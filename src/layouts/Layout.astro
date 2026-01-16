@@ -28,10 +28,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image || '/uploads/image.png';
 const ogImageURL = new URL(ogImage, Astro.site);
 
-// Get brand colors from settings
-const primaryColor = settings.colors?.primary || '#2563eb';
-const secondaryColor = settings.colors?.secondary || '#1e40af';
-const accentColor = settings.colors?.accent || '#3b82f6';
+// Get brand colors from settings (fallbacks defined in global.css)
+const primaryColor = settings.colors?.primary;
+const secondaryColor = settings.colors?.secondary;
+const accentColor = settings.colors?.accent;
 
 // Schema.org JSON-LD
 const schemaOrg = {
@@ -94,14 +94,7 @@ const schemaOrg = {
 
     <title>{fullTitle}</title>
 
-    <!-- Inject brand colors as CSS variables -->
-    <style define:vars={{ primaryColor, secondaryColor, accentColor }}>
-      :root {
-        --color-primary: var(--primaryColor);
-        --color-secondary: var(--secondaryColor);
-        --color-accent: var(--accentColor);
-      }
-    </style>
+    <!-- Inject brand colors as CSS variables (only if defined in settings) -->
   </head>
   <body class="min-h-screen flex flex-col">
     <!-- Skip to content link for accessibility -->

@@ -71,7 +71,7 @@ const portfolio = Object.entries(portfolioFiles)
 
       <!-- Text Content centrato -->
       <div class="text-center max-w-3xl mx-auto px-2">
-        <p class="text-[#3B5998] text-sm sm:text-lg md:text-xl mb-4 md:mb-6 uppercase tracking-wider md:tracking-widest">{homepage.hero.badge}</p>
+        <p class="text-primary text-sm sm:text-lg md:text-xl mb-4 md:mb-6 uppercase tracking-wider md:tracking-widest">{homepage.hero.badge}</p>
         <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 text-white leading-tight">
           {homepage.hero.title}
         </h1>
@@ -82,7 +82,7 @@ const portfolio = Object.entries(portfolioFiles)
           <a href={homepage.hero.ctaPrimary.link} class="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4">
             {homepage.hero.ctaPrimary.text}
           </a>
-          <a href={homepage.hero.ctaSecondary.link} class="border-2 border-white/30 text-white hover:bg-white hover:text-[#3B5998] text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center">
+          <a href={homepage.hero.ctaSecondary.link} class="border-2 border-white/30 text-white hover:bg-white hover:text-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 inline-flex items-center justify-center">
             {homepage.hero.ctaSecondary.text}
           </a>
         </div>
@@ -100,10 +100,10 @@ const portfolio = Object.entries(portfolioFiles)
   <!-- About Section -->
   <section
     id="about"
-    class="section bg-cover bg-center bg-no-repeat bg-fixed"
-    style={`background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${homepage.about.backgroundImage}');`}
+    class="section bg-cover bg-center bg-no-repeat bg-fixed section-bg-overlay"
+    style={`background-image: url('${homepage.about.backgroundImage}');`}
   >
-    <div class="container-custom">
+    <div class="container-custom relative z-10">
       <div class="max-w-3xl mx-auto text-center reveal">
         <p class="text-white/80 uppercase tracking-widest mb-4">{homepage.about.badge}</p>
         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-6 md:mb-8">
@@ -120,7 +120,7 @@ const portfolio = Object.entries(portfolioFiles)
   <section id="servizi" class="section bg-gray-50">
     <div class="container-custom">
       <div class="max-w-3xl mx-auto text-center reveal">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4">{homepage.services.badge}</p>
+        <p class="text-primary uppercase tracking-widest mb-4">{homepage.services.badge}</p>
         <h2 class="section-title mb-6">{homepage.services.title}</h2>
         <p class="text-xl text-gray-600 leading-relaxed mb-8">
           {homepage.services.subtitle}
@@ -146,8 +146,8 @@ const portfolio = Object.entries(portfolioFiles)
   <!-- Video/Trailer Section -->
   <section
     id="trailer"
-    class="section bg-cover bg-center bg-no-repeat bg-fixed"
-    style={`background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${homepage.trailer.backgroundImage}');`}
+    class="section bg-cover bg-center bg-no-repeat bg-fixed section-bg-overlay section-bg-overlay-60"
+    style={`background-image: url('${homepage.trailer.backgroundImage}');`}
   >
     <div class="container-custom relative z-10">
       <div class="text-center mb-12 reveal">
@@ -183,7 +183,7 @@ const portfolio = Object.entries(portfolioFiles)
   <section id="portfolio" class="section bg-white">
     <div class="container-custom">
       <div class="text-center mb-16 reveal-scale">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4">{homepage.portfolio.badge}</p>
+        <p class="text-primary uppercase tracking-widest mb-4">{homepage.portfolio.badge}</p>
         <h2 class="section-title mb-4">{homepage.portfolio.title}</h2>
         <p class="text-lg text-gray-600">{homepage.portfolio.subtitle}</p>
       </div>
@@ -226,7 +226,7 @@ const portfolio = Object.entries(portfolioFiles)
   <section id="social" class="section bg-gradient-to-b from-gray-50 to-white">
     <div class="container-custom">
       <div class="text-center mb-12 reveal">
-        <p class="text-[#3B5998] uppercase tracking-widest mb-4">{homepage.social.badge}</p>
+        <p class="text-primary uppercase tracking-widest mb-4">{homepage.social.badge}</p>
         <h2 class="text-3xl md:text-4xl text-gray-800 mb-4">{homepage.social.title}</h2>
       </div>
 
@@ -273,8 +273,8 @@ const portfolio = Object.entries(portfolioFiles)
 
           <div class="space-y-6">
             <div class="flex items-start gap-4">
-              <div class="w-12 h-12 rounded-lg bg-[#3B5998]/20 flex items-center justify-center shrink-0">
-                <MapPin class="w-6 h-6 text-[#5B8BD4]" />
+              <div class="w-12 h-12 rounded-lg bg-primary-20 flex items-center justify-center shrink-0">
+                <MapPin class="w-6 h-6 text-accent" />
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Indirizzo</p>
@@ -283,22 +283,22 @@ const portfolio = Object.entries(portfolioFiles)
             </div>
 
             <div class="flex items-start gap-4">
-              <div class="w-12 h-12 rounded-lg bg-[#3B5998]/20 flex items-center justify-center shrink-0">
-                <Phone class="w-6 h-6 text-[#5B8BD4]" />
+              <div class="w-12 h-12 rounded-lg bg-primary-20 flex items-center justify-center shrink-0">
+                <Phone class="w-6 h-6 text-accent" />
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Telefono</p>
-                <a href={`tel:${globalSettings.contact.phone.replace(/\s/g, '')}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{globalSettings.contact.phone}</a>
+                <a href={`tel:${globalSettings.contact.phone.replace(/\s/g, '')}`} class="text-gray-300 hover:text-accent transition-colors">{globalSettings.contact.phone}</a>
               </div>
             </div>
 
             <div class="flex items-start gap-4">
-              <div class="w-12 h-12 rounded-lg bg-[#3B5998]/20 flex items-center justify-center shrink-0">
-                <Mail class="w-6 h-6 text-[#5B8BD4]" />
+              <div class="w-12 h-12 rounded-lg bg-primary-20 flex items-center justify-center shrink-0">
+                <Mail class="w-6 h-6 text-accent" />
               </div>
               <div>
                 <p class="text-white font-semibold mb-1">Email</p>
-                <a href={`mailto:${globalSettings.contact.email}`} class="text-gray-300 hover:text-[#5B8BD4] transition-colors">{globalSettings.contact.email}</a>
+                <a href={`mailto:${globalSettings.contact.email}`} class="text-gray-300 hover:text-accent transition-colors">{globalSettings.contact.email}</a>
               </div>
             </div>
           </div>
