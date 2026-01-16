@@ -66,7 +66,7 @@ const portfolio = Object.entries(portfolioFiles)
         <Image
           src={logoHeroImage}
           alt={globalSettings.companyName}
-          class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
+          class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl img-darken"
           loading="eager"
         />
       </div>
@@ -169,7 +169,7 @@ const portfolio = Object.entries(portfolioFiles)
                 alt="Play"
                 width={128}
                 height={128}
-                class="w-full h-full object-contain drop-shadow-2xl"
+                class="w-full h-full object-contain drop-shadow-2xl img-darken"
               />
             </div>
           </div>
@@ -191,9 +191,14 @@ const portfolio = Object.entries(portfolioFiles)
       </div>
 
       <!-- Gallery Grid with real images -->
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 stagger-children">
-        {portfolio.map((item) => (
-          <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-lg img-zoom">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 stagger-children" id="portfolio-grid">
+        {portfolio.map((item, index) => (
+          <button
+            type="button"
+            class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-lg img-zoom cursor-pointer portfolio-item"
+            data-index={index}
+            aria-label={`Apri ${item.description || item.title}`}
+          >
             {item.optimizedImage && !isSvg(item.image) ? (
               <Image
                 src={item.optimizedImage}
@@ -218,11 +223,123 @@ const portfolio = Object.entries(portfolioFiles)
             <div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
               <p class="text-white text-sm font-medium">{item.description || item.title}</p>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
   </section>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="lightbox-overlay"></div>
+    <button type="button" class="lightbox-close" aria-label="Chiudi">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <button type="button" class="lightbox-nav lightbox-prev" aria-label="Immagine precedente">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button type="button" class="lightbox-nav lightbox-next" aria-label="Immagine successiva">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="" alt="" class="lightbox-image" />
+      <p id="lightbox-caption" class="lightbox-caption"></p>
+    </div>
+    <div class="lightbox-counter">
+      <span id="lightbox-current">1</span> / <span id="lightbox-total">1</span>
+    </div>
+  </div>
+
+  <script define:vars={{ portfolioData: portfolio.map(p => ({ image: p.optimizedImage?.src || `${base}${p.image}`, title: p.description || p.title })) }}>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxCurrent = document.getElementById('lightbox-current');
+    const lightboxTotal = document.getElementById('lightbox-total');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    let currentIndex = 0;
+    const images = portfolioData;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      updateLightbox();
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightbox() {
+      const item = images[currentIndex];
+      lightboxImage.src = item.image;
+      lightboxImage.alt = item.title;
+      lightboxCaption.textContent = item.title;
+      lightboxCurrent.textContent = currentIndex + 1;
+      lightboxTotal.textContent = images.length;
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateLightbox();
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateLightbox();
+    }
+
+    // Event listeners
+    portfolioItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        const index = parseInt(item.dataset.index, 10);
+        openLightbox(index);
+      });
+    });
+
+    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    document.querySelector('.lightbox-overlay').addEventListener('click', closeLightbox);
+    document.querySelector('.lightbox-next').addEventListener('click', nextImage);
+    document.querySelector('.lightbox-prev').addEventListener('click', prevImage);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    lightbox.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextImage();
+        else prevImage();
+      }
+    }, { passive: true });
+  </script>
 
   <!-- Social Section -->
   <section id="social" class="section bg-gradient-to-b from-gray-50 to-white">
