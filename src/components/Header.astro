@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 // Carica impostazioni globali usando import statico (compatibile con Cloudflare Workers)
 import globalSettings from '../../content/settings/global.json';
-import logoImage from '../assets/images/uploads/logo.png';
+import logoNavbarImage from '../assets/images/uploads/logo-navbar.png';
 
 const navItems = [
   { label: 'Home', href: '#home' },
@@ -19,7 +19,7 @@ const navItems = [
     <div class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo / Company Name -->
       <a href="#home" class="flex items-center group">
-        <Image src={logoImage} alt={globalSettings.companyName} class="h-14 w-auto group-hover:opacity-80 transition-opacity" />
+        <Image src={logoNavbarImage} alt={globalSettings.companyName} class="h-14 w-auto group-hover:opacity-80 transition-opacity" />
       </a>
 
       <!-- Desktop Navigation -->

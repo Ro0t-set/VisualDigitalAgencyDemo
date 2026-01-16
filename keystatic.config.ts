@@ -19,8 +19,13 @@ export default config({
       schema: {
         companyName: fields.text({ label: 'Nome Azienda' }),
         tagline: fields.text({ label: 'Tagline' }),
-        logo: fields.image({
-          label: 'Logo',
+        logoNavbar: fields.image({
+          label: 'Logo Navbar (piccolo)',
+          directory: 'src/assets/images/uploads',
+          publicPath: '/src/assets/images/uploads/',
+        }),
+        logoHero: fields.image({
+          label: 'Logo Hero (completo)',
           directory: 'src/assets/images/uploads',
           publicPath: '/src/assets/images/uploads/',
         }),

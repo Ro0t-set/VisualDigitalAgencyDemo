@@ -9,7 +9,7 @@ import homepage from '../../content/pages/homepage.json';
 import globalSettings from '../../content/settings/global.json';
 
 // Import immagini statiche per ottimizzazione
-import logoImage from '../assets/images/uploads/logo.png';
+import logoHeroImage from '../assets/images/uploads/logo-hero.png';
 import playButtonImage from '../assets/images/uploads/play-button.png';
 
 // Import dinamico portfolio JSON e immagini (eseguito a build time)
@@ -60,9 +60,9 @@ const portfolio = Object.entries(portfolioFiles)
 
     <div class="container-custom relative z-10 pt-20 md:pt-24 pb-8 md:pb-12">
       <!-- Logo centrato -->
-      <div class="flex justify-center mb-6 md:mb-8">
+      <div class="flex justify-center mt-16 md:mt-24 mb-10 md:mb-16">
         <Image
-          src={logoImage}
+          src={logoHeroImage}
           alt={globalSettings.companyName}
           class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
           loading="eager"
