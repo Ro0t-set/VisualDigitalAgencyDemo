@@ -1,21 +1,41 @@
 @import "tailwindcss";
 
-/* Custom CSS Variables - Blue palette matching Viral Agency logo */
+/* ==========================================
+   COLOR PALETTE - Only 5 colors
+   No pure black or pure white
+   ========================================== */
 :root {
+  /* 1. Primary Blue - main brand color */
   --color-primary: #3B5998;
-  --color-primary-light: #4A6DB5;
-  --color-primary-dark: #2D4373;
-  --color-secondary: #1E3A5F;
+
+  /* 2. Accent Blue - lighter, for highlights */
   --color-accent: #5B8BD4;
-  --color-dark: #0D1117;
-  --color-dark-light: #161B22;
+
+  /* 3. Dark - backgrounds (blue-tinted dark, not pure black) */
+  --color-dark: #0A1628;
+
+  /* 4. Light - text/backgrounds (not pure white) */
   --color-light: #F8FAFC;
-  --gradient-primary: linear-gradient(135deg, #2D4373 0%, #3B5998 50%, #5B8BD4 100%);
-  --gradient-dark: linear-gradient(135deg, #0D1117 0%, #161B22 50%, #1E293B 100%);
-  --gradient-glow: linear-gradient(135deg, rgba(59, 89, 152, 0.3) 0%, rgba(91, 139, 212, 0.3) 100%);
+
+  /* 5. Muted - secondary text, borders */
+  --color-muted: #6B7280;
+
+  /* RGB versions for opacity */
+  --color-primary-rgb: 59, 89, 152;
+  --color-accent-rgb: 91, 139, 212;
+  --color-dark-rgb: 10, 22, 40;
+  --color-light-rgb: 248, 250, 252;
+  --color-muted-rgb: 107, 114, 128;
+
+  /* Derived values */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  --shadow-primary: 0 4px 20px rgba(var(--color-primary-rgb), 0.4);
+  --shadow-primary-hover: 0 8px 30px rgba(var(--color-primary-rgb), 0.6);
 }
 
-/* Base styles */
+/* ==========================================
+   BASE STYLES
+   ========================================== */
 html {
   scroll-behavior: smooth;
 }
@@ -24,18 +44,20 @@ body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #111827;
+  color: var(--color-dark);
   background-color: var(--color-dark);
   overflow-x: hidden;
 }
 
-/* Skip to content link for accessibility */
+/* ==========================================
+   ACCESSIBILITY
+   ========================================== */
 .skip-link {
   position: absolute;
   top: -40px;
   left: 0;
   background: var(--color-primary);
-  color: white;
+  color: var(--color-light);
   padding: 8px 16px;
   z-index: 100;
   transition: top 0.3s;
@@ -45,12 +67,20 @@ body {
   top: 0;
 }
 
-/* Cursor glow effect - hidden on mobile/touch devices */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   CURSOR GLOW
+   ========================================== */
 .cursor-glow {
   position: fixed;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.15) 0%, rgba(var(--color-primary-rgb), 0.05) 40%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
@@ -66,9 +96,11 @@ body {
   }
 }
 
-/* Animated gradient background */
+/* ==========================================
+   BACKGROUNDS
+   ========================================== */
 .gradient-bg {
-  background: var(--gradient-dark);
+  background: linear-gradient(135deg, var(--color-dark) 0%, rgba(var(--color-dark-rgb), 0.95) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -80,9 +112,8 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at center, rgba(37, 99, 235, 0.12) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-              radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.08) 0%, transparent 40%);
+  background: radial-gradient(circle at center, rgba(var(--color-primary-rgb), 0.12) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(var(--color-accent-rgb), 0.08) 0%, transparent 40%);
   animation: pulse-glow 8s ease-in-out infinite;
 }
 
@@ -91,87 +122,56 @@ body {
   50% { opacity: 1; transform: scale(1.1); }
 }
 
-/* Glassmorphism card effect */
+/* ==========================================
+   GLASS CARDS
+   ========================================== */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(var(--color-light-rgb), 0.03);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(var(--color-light-rgb), 0.08);
   border-radius: 1.5rem;
 }
 
 .glass-card-light {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(var(--color-light-rgb), 0.9);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.1);
   border-radius: 1.5rem;
-  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 8px 32px rgba(var(--color-primary-rgb), 0.1);
 }
 
-/* Utility classes for brand colors */
-.bg-primary {
-  background-color: var(--color-primary);
-}
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+.bg-primary { background-color: var(--color-primary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-dark { background-color: var(--color-dark); }
+.bg-light { background-color: var(--color-light); }
+.bg-header { background-color: rgba(var(--color-dark-rgb), 0.98); }
+.bg-primary-20 { background-color: rgba(var(--color-primary-rgb), 0.2); }
 
-.bg-secondary {
-  background-color: var(--color-secondary);
-}
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-light { color: var(--color-light); }
+.text-muted { color: var(--color-muted); }
 
-.bg-accent {
-  background-color: var(--color-accent);
-}
+.border-primary { border-color: var(--color-primary); }
+.border-dark-light { border-color: rgba(var(--color-light-rgb), 0.1); }
 
-.bg-dark {
-  background-color: var(--color-dark);
-}
-
-.text-primary {
-  color: var(--color-primary);
-}
-
-.text-secondary {
-  color: var(--color-secondary);
-}
-
-.text-accent {
-  color: var(--color-accent);
-}
-
-.border-primary {
-  border-color: var(--color-primary);
-}
-
-.border-dark-light {
-  border-color: var(--color-dark-light);
-}
-
-/* Header/Footer dark background */
-.bg-header {
-  background-color: var(--color-dark);
-}
-
-/* Primary color with opacity */
-.bg-primary-20 {
-  background-color: rgba(59, 89, 152, 0.2);
-}
-
-/* Overlay gradients for background images */
+/* ==========================================
+   OVERLAYS
+   ========================================== */
 .overlay-dark {
-  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.5), rgba(13, 17, 23, 0.5));
+  background: linear-gradient(to bottom, rgba(var(--color-dark-rgb), 0.5), rgba(var(--color-dark-rgb), 0.5));
 }
 
-.overlay-dark-60 {
-  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.6), rgba(13, 17, 23, 0.6));
-}
-
-/* Hero gradient overlay */
 .hero-overlay {
   background: linear-gradient(to bottom right,
-    rgba(13, 17, 23, 0.9),
-    rgba(30, 58, 95, 0.8),
-    rgba(13, 17, 23, 0.9));
+    rgba(var(--color-dark-rgb), 0.9),
+    rgba(var(--color-primary-rgb), 0.3),
+    rgba(var(--color-dark-rgb), 0.9));
 }
 
-/* Background image sections with overlay */
 .section-bg-overlay {
   position: relative;
 }
@@ -180,15 +180,17 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.5), rgba(13, 17, 23, 0.5));
+  background: linear-gradient(to bottom, rgba(var(--color-dark-rgb), 0.5), rgba(var(--color-dark-rgb), 0.5));
   z-index: 1;
 }
 
 .section-bg-overlay-60::before {
-  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.6), rgba(13, 17, 23, 0.6));
+  background: linear-gradient(to bottom, rgba(var(--color-dark-rgb), 0.6), rgba(var(--color-dark-rgb), 0.6));
 }
 
-/* Gradient text effect */
+/* ==========================================
+   GRADIENT TEXT
+   ========================================== */
 .gradient-text {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -196,7 +198,9 @@ body {
   background-clip: text;
 }
 
-/* Button styles - Modern with blue gradients */
+/* ==========================================
+   BUTTONS
+   ========================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -218,10 +222,10 @@ body {
   font-weight: 600;
   border-radius: 0.75rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  color: white;
+  color: var(--color-light);
   background: var(--gradient-primary);
   background-size: 200% 200%;
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+  box-shadow: var(--shadow-primary);
   text-transform: uppercase;
   letter-spacing: 0.025em;
   font-size: 0.875rem;
@@ -236,7 +240,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--color-light-rgb), 0.2), transparent);
   transition: left 0.5s ease;
 }
 
@@ -246,7 +250,7 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.6);
+  box-shadow: var(--shadow-primary-hover);
   background-position: 100% 100%;
 }
 
@@ -274,9 +278,9 @@ body {
 .btn-outline:hover {
   background: var(--gradient-primary);
   border-color: transparent;
-  color: white;
+  color: var(--color-light);
   transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+  box-shadow: var(--shadow-primary);
 }
 
 .btn-outline:focus {
@@ -284,7 +288,9 @@ body {
   outline-offset: 2px;
 }
 
-/* Section spacing */
+/* ==========================================
+   LAYOUT
+   ========================================== */
 .section {
   padding-top: 5rem;
   padding-bottom: 5rem;
@@ -319,13 +325,15 @@ body {
   }
 }
 
-/* Feature cards with hover effects */
+/* ==========================================
+   FEATURE CARDS
+   ========================================== */
 .feature-card {
-  background: white;
+  background: var(--color-light);
   border-radius: 1.5rem;
   padding: 2rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -344,14 +352,16 @@ body {
 
 .feature-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 20px 40px rgba(var(--color-primary-rgb), 0.15);
 }
 
 .feature-card:hover::before {
   transform: scaleX(1);
 }
 
-/* Icon wrapper with gradient */
+/* ==========================================
+   ICON WRAPPER
+   ========================================== */
 .icon-wrapper {
   width: 4rem;
   height: 4rem;
@@ -361,21 +371,23 @@ body {
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 15px rgba(var(--color-primary-rgb), 0.3);
 }
 
 .icon-wrapper svg {
   width: 1.75rem;
   height: 1.75rem;
-  color: white;
+  color: var(--color-light);
 }
 
-/* Rich text styles */
+/* ==========================================
+   TYPOGRAPHY
+   ========================================== */
 .prose-custom {
   max-width: none;
   font-size: 1.125rem;
   line-height: 1.8;
-  color: #4B5563;
+  color: var(--color-muted);
 }
 
 .prose-custom p {
@@ -409,7 +421,6 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Section titles */
 .section-title {
   font-size: 2.5rem;
   font-weight: 400;
@@ -426,15 +437,17 @@ body {
 
 .section-subtitle {
   font-size: 1.25rem;
-  color: #6B7280;
+  color: var(--color-muted);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
 }
 
-/* CTA Section with gradient background */
+/* ==========================================
+   CTA SECTION
+   ========================================== */
 .cta-section {
-  background: var(--gradient-dark);
+  background: linear-gradient(135deg, var(--color-dark) 0%, rgba(var(--color-dark-rgb), 0.95) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -446,25 +459,27 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 30% 70%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at 30% 70%, rgba(var(--color-primary-rgb), 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 70% 30%, rgba(var(--color-accent-rgb), 0.1) 0%, transparent 50%);
 }
 
-/* Form styles with better accessibility */
+/* ==========================================
+   FORMS
+   ========================================== */
 .form-input {
   width: 100%;
   padding: 1rem 1.25rem;
-  border: 2px solid #E5E7EB;
+  border: 2px solid rgba(var(--color-muted-rgb), 0.3);
   border-radius: 0.75rem;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: white;
+  background: var(--color-light);
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.15);
 }
 
 .form-input:focus-visible {
@@ -473,7 +488,7 @@ body {
 }
 
 .form-input::placeholder {
-  color: #9CA3AF;
+  color: var(--color-muted);
 }
 
 .form-label {
@@ -486,7 +501,9 @@ body {
   letter-spacing: 0.05em;
 }
 
-/* Animated underline for links */
+/* ==========================================
+   LINKS
+   ========================================== */
 .link-underline {
   position: relative;
   color: var(--color-primary);
@@ -508,7 +525,9 @@ body {
   width: 100%;
 }
 
-/* Social icons */
+/* ==========================================
+   SOCIAL ICONS
+   ========================================== */
 .social-icon {
   width: 2.5rem;
   height: 2.5rem;
@@ -516,14 +535,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(59, 89, 152, 0.15);
-  color: #5B8BD4;
+  background: rgba(var(--color-primary-rgb), 0.15);
+  color: var(--color-accent);
   transition: all 0.3s ease;
 }
 
 .social-icon:hover {
-  background: #3B5998;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-light);
   transform: translateY(-3px);
 }
 
@@ -532,7 +551,9 @@ body {
   outline-offset: 2px;
 }
 
-/* Floating animation */
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
@@ -542,7 +563,6 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Text reveal animation */
 @keyframes text-reveal {
   0% {
     opacity: 0;
@@ -566,18 +586,16 @@ body {
 .text-reveal-delay-4 { animation-delay: 0.4s; opacity: 0; }
 .text-reveal-delay-5 { animation-delay: 0.5s; opacity: 0; }
 
-/* Magnetic button effect */
 .magnetic-btn {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Glow pulse animation for hero logo */
 @keyframes glow-pulse {
   0%, 100% {
-    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+    filter: drop-shadow(0 0 20px rgba(var(--color-accent-rgb), 0.3));
   }
   50% {
-    filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6));
+    filter: drop-shadow(0 0 40px rgba(var(--color-accent-rgb), 0.6));
   }
 }
 
@@ -585,7 +603,9 @@ body {
   animation: glow-pulse 3s ease-in-out infinite;
 }
 
-/* Scroll reveal animations */
+/* ==========================================
+   SCROLL REVEAL
+   ========================================== */
 .reveal {
   opacity: 0;
   transform: translateY(50px);
@@ -597,7 +617,6 @@ body {
   transform: translateY(0);
 }
 
-/* Reveal from left */
 .reveal-left {
   opacity: 0;
   transform: translateX(-60px);
@@ -609,7 +628,6 @@ body {
   transform: translateX(0);
 }
 
-/* Reveal from right */
 .reveal-right {
   opacity: 0;
   transform: translateX(60px);
@@ -621,7 +639,6 @@ body {
   transform: translateX(0);
 }
 
-/* Reveal with scale */
 .reveal-scale {
   opacity: 0;
   transform: scale(0.9);
@@ -633,7 +650,9 @@ body {
   transform: scale(1);
 }
 
-/* Stagger children animation */
+/* ==========================================
+   STAGGER CHILDREN
+   ========================================== */
 .stagger-children > * {
   opacity: 0;
   transform: translateY(20px);
@@ -655,7 +674,9 @@ body {
   }
 }
 
-/* Particle background */
+/* ==========================================
+   PARTICLES
+   ========================================== */
 .particles {
   position: absolute;
   inset: 0;
@@ -667,7 +688,7 @@ body {
   position: absolute;
   width: 4px;
   height: 4px;
-  background: rgba(59, 89, 152, 0.6);
+  background: rgba(var(--color-primary-rgb), 0.6);
   border-radius: 50%;
   animation: particle-float 15s infinite;
 }
@@ -677,19 +698,17 @@ body {
     transform: translateY(100vh) scale(0);
     opacity: 0;
   }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
   100% {
     transform: translateY(-100vh) scale(1);
     opacity: 0;
   }
 }
 
-/* Tilt effect for cards */
+/* ==========================================
+   CARD EFFECTS
+   ========================================== */
 .tilt-card {
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
@@ -699,7 +718,6 @@ body {
   transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
 }
 
-/* Image zoom on hover */
 .img-zoom {
   overflow: hidden;
 }
@@ -712,7 +730,9 @@ body {
   transform: scale(1.1);
 }
 
-/* Noise texture overlay */
+/* ==========================================
+   NOISE OVERLAY
+   ========================================== */
 .noise-overlay::after {
   content: '';
   position: absolute;
@@ -723,14 +743,9 @@ body {
   mix-blend-mode: overlay;
 }
 
-/* Improved focus states for accessibility */
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Reduced motion preference */
+/* ==========================================
+   ACCESSIBILITY
+   ========================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -745,26 +760,26 @@ button:focus-visible {
   }
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
   .btn-primary {
     background: var(--color-primary);
-    border: 2px solid white;
+    border: 2px solid var(--color-light);
   }
 
   .glass-card {
-    background: rgba(0, 0, 0, 0.9);
-    border: 2px solid white;
+    background: rgba(var(--color-dark-rgb), 0.9);
+    border: 2px solid var(--color-light);
   }
 }
 
-/* Hero background - Clean and simple */
+/* ==========================================
+   HERO SECTION
+   ========================================== */
 .hero-bg {
-  background: linear-gradient(180deg, #0a0e17 0%, #101827 100%);
+  background: linear-gradient(180deg, var(--color-dark) 0%, rgba(var(--color-dark-rgb), 0.95) 100%);
   position: relative;
 }
 
-/* Animated hero background - color shifting lights */
 .hero-animated-bg {
   position: absolute;
   inset: 0;
@@ -772,120 +787,63 @@ button:focus-visible {
   pointer-events: none;
 }
 
-/* First light - shifts blue to cyan */
 .hero-animated-bg::before {
   content: '';
   position: absolute;
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.4) 0%, transparent 70%);
   filter: blur(80px);
   opacity: 0.5;
-  animation: lightMove1 12s ease-in-out infinite, colorShift1 8s ease-in-out infinite;
+  animation: lightMove1 12s ease-in-out infinite;
 }
 
-/* Second light - shifts cyan to purple */
 .hero-animated-bg::after {
   content: '';
   position: absolute;
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.4) 0%, transparent 70%);
   filter: blur(80px);
   opacity: 0.4;
-  animation: lightMove2 15s ease-in-out infinite, colorShift2 10s ease-in-out infinite;
+  animation: lightMove2 15s ease-in-out infinite;
 }
 
-/* Third light - shifts purple to blue */
 .hero-light-3 {
   position: absolute;
   width: 450px;
   height: 450px;
   border-radius: 50%;
-  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.3) 0%, transparent 70%);
   filter: blur(80px);
   opacity: 0.35;
-  animation: lightMove3 18s ease-in-out infinite, colorShift3 12s ease-in-out infinite;
+  animation: lightMove3 18s ease-in-out infinite;
   pointer-events: none;
 }
 
-/* Movement animations */
 @keyframes lightMove1 {
-  0%, 100% {
-    top: -10%;
-    left: -10%;
-  }
-  25% {
-    top: 20%;
-    left: 60%;
-  }
-  50% {
-    top: 60%;
-    left: 70%;
-  }
-  75% {
-    top: 40%;
-    left: 10%;
-  }
+  0%, 100% { top: -10%; left: -10%; }
+  25% { top: 20%; left: 60%; }
+  50% { top: 60%; left: 70%; }
+  75% { top: 40%; left: 10%; }
 }
 
 @keyframes lightMove2 {
-  0%, 100% {
-    bottom: -10%;
-    right: -10%;
-  }
-  33% {
-    bottom: 50%;
-    right: 60%;
-  }
-  66% {
-    bottom: 20%;
-    right: 20%;
-  }
+  0%, 100% { bottom: -10%; right: -10%; }
+  33% { bottom: 50%; right: 60%; }
+  66% { bottom: 20%; right: 20%; }
 }
 
 @keyframes lightMove3 {
-  0%, 100% {
-    top: 50%;
-    left: 40%;
-  }
-  50% {
-    top: 10%;
-    left: 60%;
-  }
+  0%, 100% { top: 50%; left: 40%; }
+  50% { top: 10%; left: 60%; }
 }
 
-/* Color shift animations */
-@keyframes colorShift1 {
-  0%, 100% {
-    color: rgba(59, 89, 152, 1);
-  }
-  50% {
-    color: rgba(91, 139, 212, 1);
-  }
-}
-
-@keyframes colorShift2 {
-  0%, 100% {
-    color: rgba(91, 139, 212, 1);
-  }
-  50% {
-    color: rgba(147, 112, 219, 1);
-  }
-}
-
-@keyframes colorShift3 {
-  0%, 100% {
-    color: rgba(147, 112, 219, 1);
-  }
-  50% {
-    color: rgba(59, 89, 152, 1);
-  }
-}
-
-/* Hero animated orbs */
+/* ==========================================
+   HERO ORBS
+   ========================================== */
 .hero-orb {
   position: absolute;
   border-radius: 50%;
@@ -897,7 +855,7 @@ button:focus-visible {
   left: 10%;
   width: 300px;
   height: 300px;
-  background: rgba(59, 89, 152, 0.15);
+  background: rgba(var(--color-primary-rgb), 0.15);
   animation: float-1 15s ease-in-out infinite;
 }
 
@@ -906,7 +864,7 @@ button:focus-visible {
   right: 10%;
   width: 350px;
   height: 350px;
-  background: rgba(91, 139, 212, 0.12);
+  background: rgba(var(--color-accent-rgb), 0.12);
   animation: float-2 18s ease-in-out infinite;
 }
 
@@ -915,55 +873,32 @@ button:focus-visible {
   left: 50%;
   width: 400px;
   height: 400px;
-  background: rgba(59, 89, 152, 0.08);
+  background: rgba(var(--color-primary-rgb), 0.08);
   animation: pulse-center 10s ease-in-out infinite;
 }
 
 @keyframes float-1 {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(40px, -30px);
-  }
-  50% {
-    transform: translate(20px, 40px);
-  }
-  75% {
-    transform: translate(-30px, 20px);
-  }
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(40px, -30px); }
+  50% { transform: translate(20px, 40px); }
+  75% { transform: translate(-30px, 20px); }
 }
 
 @keyframes float-2 {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  33% {
-    transform: translate(-50px, -40px);
-  }
-  66% {
-    transform: translate(30px, 50px);
-  }
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-50px, -40px); }
+  66% { transform: translate(30px, 50px); }
 }
 
 @keyframes pulse-center {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 1;
-  }
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
 }
 
 /* ==========================================
    MOBILE OPTIMIZATIONS
    ========================================== */
-
-/* Disable heavy animations on mobile for performance */
 @media (max-width: 768px) {
-  /* Simplify hero animated background on mobile */
   .hero-animated-bg::before,
   .hero-animated-bg::after {
     width: 250px;
@@ -976,38 +911,31 @@ button:focus-visible {
   .hero-animated-bg::before {
     top: 10%;
     left: 10%;
-    color: rgba(59, 89, 152, 1);
   }
 
   .hero-animated-bg::after {
     bottom: 10%;
     right: 10%;
-    color: rgba(91, 139, 212, 1);
   }
 
-  /* Disable parallax on mobile - causes jank */
   .bg-fixed {
     background-attachment: scroll !important;
   }
 
-  /* Reduce section padding on mobile */
   .section {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
 
-  /* Smaller container padding */
   .container-custom {
     padding-left: 1rem;
     padding-right: 1rem;
   }
 
-  /* Disable tilt effect on touch devices */
   .tilt-card {
     transform: none !important;
   }
 
-  /* Simplify reveal animations */
   .reveal,
   .reveal-left,
   .reveal-right,
@@ -1016,13 +944,11 @@ button:focus-visible {
     transform: none;
   }
 
-  /* Reduce blur effects for performance */
   .blur-3xl {
     filter: blur(40px);
   }
 }
 
-/* Touch device specific - disable hover effects that cause issues */
 @media (hover: none) {
   .feature-card:hover,
   .btn-primary:hover,
@@ -1039,7 +965,6 @@ button:focus-visible {
   }
 }
 
-/* Fix for iOS Safari viewport height */
 @supports (-webkit-touch-callout: none) {
   .min-h-screen {
     min-height: -webkit-fill-available;
