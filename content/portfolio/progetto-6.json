@@ -1,6 +1,9 @@
 {
-  "title": "progetto-6",
-  "image": "/src/assets/images/gallery/6.png",
+  "title": {
+    "name": "Progetto 6",
+    "slug": "progetto-6"
+  },
+  "image": "/src/assets/images/portfolio/progetto-6/image.png",
   "description": "Progetto 6",
   "order": 6,
   "featured": true

@@ -1,8 +1,8 @@
 {
   "companyName": "Viral Digital Agency",
   "tagline": "Dimmi cosa vuoi e noi faremo meglio",
-  "logoNavbar": "/src/assets/images/uploads/logoNavbar.png",
-  "logoHero": "/src/assets/images/uploads/logoHero.png",
+  "logoNavbar": "/src/assets/images/uploads/global/logoNavbar.png",
+  "logoHero": "/src/assets/images/uploads/global/logoHero.png",
   "colors": {
     "primary": "#8B5CF6",
     "secondary": "#6D28D9",

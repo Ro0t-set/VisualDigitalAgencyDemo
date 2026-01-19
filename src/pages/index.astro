@@ -9,40 +9,37 @@ import homepage from '../../content/pages/homepage.json';
 import globalSettings from '../../content/settings/global.json';
 
 // Import immagini statiche per ottimizzazione
-import logoHeroImage from '../assets/images/uploads/logo-hero.png';
+import logoHeroImage from '../assets/images/uploads/global/logoHero.png';
 import playButtonImage from '../assets/images/uploads/play-button.png';
 
-// Import dinamico portfolio JSON e immagini (eseguito a build time)
+// Import dinamico portfolio JSON files
 const portfolioFiles = import.meta.glob<{ default: any }>(
   '/content/portfolio/*.json',
   { eager: true }
 );
 
-const galleryImages = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/images/gallery/**/*.{png,jpg,jpeg,webp}',
+// Import dinamico immagini portfolio per ottimizzazione Astro
+const portfolioImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/portfolio/**/*.{png,jpg,jpeg,gif,webp}',
   { eager: true }
 );
-
-function getOptimizedImage(path: string | null | undefined): ImageMetadata | null {
-  if (!path) return null;
-  const image = galleryImages[path];
-  return image?.default ?? null;
-}
-
-function isSvg(path: string | null | undefined): boolean {
-  return path?.toLowerCase().endsWith('.svg') ?? false;
-}
-
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Portfolio items - caricati staticamente
 const portfolio = Object.entries(portfolioFiles)
   .map(([filePath, mod]) => {
+    // Estrai slug dal path: /content/portfolio/{slug}.json
     const slug = filePath.split('/').pop()?.replace('.json', '') || '';
+    // Il campo title è un oggetto { name, slug } oppure stringa
+    const titleData = mod.default.title;
+    const displayTitle = typeof titleData === 'object' ? titleData.name : titleData;
+    // L'immagine nel JSON è il path completo: /src/assets/images/portfolio/{slug}/image.png
+    const imagePath = mod.default.image;
+    const imageModule = portfolioImages[imagePath];
     return {
       ...mod.default,
       slug,
-      optimizedImage: getOptimizedImage(mod.default.image)
+      displayTitle,
+      image: imageModule?.default || null,
     };
   })
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -199,25 +196,19 @@ const portfolio = Object.entries(portfolioFiles)
             data-index={index}
             aria-label={`Apri ${item.description || item.title}`}
           >
-            {item.optimizedImage && !isSvg(item.image) ? (
+{item.image ? (
               <Image
-                src={item.optimizedImage}
-                alt={item.description || item.title}
+                src={item.image}
+                alt={item.description || item.displayTitle}
+                class="w-full h-full object-cover"
+                loading="lazy"
                 width={400}
                 height={400}
-                class="w-full h-full object-cover"
-                loading="lazy"
               />
             ) : (
-              <img
-                src={`${base}${item.image}`}
-                alt={item.description || item.title}
-                class="w-full h-full object-cover"
-                loading="lazy"
-                decoding="async"
-                width="400"
-                height="400"
-              />
+              <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-400">No image</span>
+              </div>
             )}
             <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -257,7 +248,7 @@ const portfolio = Object.entries(portfolioFiles)
     </div>
   </div>
 
-  <script define:vars={{ portfolioData: portfolio.map(p => ({ image: p.optimizedImage?.src || `${base}${p.image}`, title: p.description || p.title })) }}>
+  <script define:vars={{ portfolioData: portfolio.map(p => ({ image: p.image?.src || '', title: p.description || p.displayTitle })) }}>
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
     const lightboxCaption = document.getElementById('lightbox-caption');

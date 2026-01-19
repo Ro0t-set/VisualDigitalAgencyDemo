@@ -143,9 +143,8 @@ export default config({
         title: fields.slug({ name: { label: 'Titolo' } }),
         image: fields.image({
           label: 'Immagine',
-          directory: 'src/assets/images/gallery',
-          publicPath: '/src/assets/images/gallery/',
-          validation: { isRequired: true },
+          directory: 'src/assets/images/portfolio',
+          publicPath: '/src/assets/images/portfolio/',
         }),
         description: fields.text({ label: 'Descrizione', multiline: true }),
         order: fields.number({ label: 'Ordine', defaultValue: 0 }),
