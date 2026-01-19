@@ -1,8 +1,8 @@
 {
   "companyName": "Viral Digital Agency",
   "tagline": "Dimmi cosa vuoi e noi faremo meglio",
-  "logoNavbar": "/src/assets/images/uploads/logo-navbar.png",
-  "logoHero": "/src/assets/images/uploads/logo-hero.png",
+  "logoNavbar": "/src/assets/images/uploads/logoNavbar.png",
+  "logoHero": "/src/assets/images/uploads/logoHero.png",
   "colors": {
     "primary": "#8B5CF6",
     "secondary": "#6D28D9",
@@ -22,7 +22,7 @@
     "defaultDescription": "Viral Digital Agency - La tua agenzia di social media marketing a Modena. Creiamo contenuti di alta qualità per far crescere la tua presenza online."
   },
   "form": {
-    "formspreeId": "your-formspree-id"
+    "formspreeId": "your-formspree-id-key"
   },
   "legal": {
     "piva": "IT04181410368",
