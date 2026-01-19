@@ -1,10 +1,18 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
+// Determina se siamo in ambiente locale (dev) o produzione
+const isLocal = process.env.NODE_ENV === 'development' || import.meta.env?.DEV;
+
+// Storage: local in dev, github in produzione
+const storage = isLocal
+  ? { kind: 'local' as const }
+  : {
+      kind: 'github' as const,
+      repo: 'Ro0t-set/VisualDigitalAgencyDemo' as const,
+    };
+
 export default config({
-  storage: {
-    kind: 'github',
-    repo: 'Ro0t-set/VisualDigitalAgencyDemo',
-  },
+  storage,
 
   ui: {
     brand: { name: 'Viral Digital Agency' },

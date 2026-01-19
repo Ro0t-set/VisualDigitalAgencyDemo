@@ -113,6 +113,34 @@ export default config({
 
 ## Storage Modes
 
+### Configurazione Ibrida Local/GitHub (RACCOMANDATA)
+
+La configurazione migliore e usare **Local Mode in sviluppo** e **GitHub Mode in produzione**:
+
+```typescript
+import { config, fields, collection, singleton } from '@keystatic/core';
+
+// Determina se siamo in ambiente locale (dev) o produzione
+const isLocal = process.env.NODE_ENV === 'development' || import.meta.env?.DEV;
+
+// Storage: local in dev, github in produzione
+const storage = isLocal
+  ? { kind: 'local' as const }
+  : {
+      kind: 'github' as const,
+      repo: 'owner/repo-name' as const,
+    };
+
+export default config({
+  storage,
+  // ... resto della configurazione
+});
+```
+
+**Vantaggi**:
+- In sviluppo: modifiche istantanee senza push, niente autenticazione OAuth
+- In produzione: collaborazione team, versionamento Git, OAuth sicuro
+
 ### Local Mode
 
 **Uso**: Sviluppo locale, prototipazione
@@ -125,6 +153,7 @@ storage: {
 
 - Salva i contenuti nel filesystem locale
 - Non richiede autenticazione
+- Modifiche immediate senza push
 - Ideale per `npm run dev`
 
 ### GitHub Mode
@@ -145,6 +174,8 @@ storage: {
 - `KEYSTATIC_GITHUB_CLIENT_SECRET`
 - `KEYSTATIC_SECRET`
 - `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` (Astro)
+
+**IMPORTANTE**: In GitHub mode, Keystatic legge dal repository REMOTO. Le modifiche locali non sono visibili finche non fai push.
 
 ### Cloud Mode
 
