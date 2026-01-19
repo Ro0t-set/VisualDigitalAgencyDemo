@@ -413,259 +413,114 @@ authors: fields.array(
 
 ## Gestione Immagini
 
-### ATTENZIONE: Errori Comuni da Evitare
+### ATTENZIONE CRITICA: La gestione immagini e la parte PIU DELICATA di Keystatic
 
-La gestione delle immagini in Keystatic e una delle parti piu delicate. Errori nella configurazione causano:
-- Immagini non visibili nell'Admin UI `/keystatic`
-- Immagini che non si caricano nel frontend
-- Path errati nei file JSON
+La gestione delle immagini in Keystatic e la fonte principale di errori. Questa sezione contiene le lezioni apprese da debugging estensivo.
 
-### Come Funziona Keystatic con le Immagini
+### REGOLA FONDAMENTALE: GitHub Mode legge dal repository REMOTO
 
-Keystatic gestisce le immagini in modo **diverso** per Collections e Singletons:
+**CRITICO per GitHub Mode**: Keystatic in `storage: { kind: 'github' }` **NON legge dal filesystem locale**. Legge i file direttamente dal repository GitHub remoto.
 
-#### Per le Collections (con slug)
+**Conseguenze pratiche**:
+1. Se modifichi immagini o JSON localmente, **devi fare push** prima che Keystatic le veda
+2. Le anteprime nell'Admin UI vengono caricate da GitHub, non dal tuo disco
+3. Un'immagine puo esistere localmente ma non apparire in `/keystatic` finche non e su GitHub
 
-Keystatic crea una **sottocartella con lo slug dell'entry**:
-
-```
-directory: 'public/images/portfolio'
-publicPath: '/images/portfolio/'
-
-Risultato per entry "progetto-alpha":
-public/images/portfolio/progetto-alpha/image.jpg
-
-Valore salvato nel JSON: /images/portfolio/progetto-alpha/image.jpg
+```bash
+# Workflow corretto per vedere le immagini in Keystatic
+git add .
+git commit -m "Add images"
+git push  # <-- Solo dopo questo Keystatic vedra le immagini!
 ```
 
-#### Per i Singletons (senza slug)
+### Come Keystatic Salva i Path delle Immagini
 
-Keystatic crea una **sottocartella con il nome del singleton**:
-
+Keystatic salva nel JSON il **path COMPLETO** dell'immagine, composto da:
 ```
-directory: 'public/images/settings'
-publicPath: '/images/settings/'
-
-Risultato per singleton "global", campo "logo":
-public/images/settings/global/logo.png
-
-Valore salvato nel JSON: /images/settings/global/logo.png
+publicPath + slug_entry + nome_file
 ```
 
-### Configurazione CORRETTA per Collections
+**Esempio CONCRETO** (da debugging reale):
 
-```typescript
-// keystatic.config.ts
-collections: {
-  portfolio: collection({
-    label: 'Portfolio',
-    slugField: 'title',
-    path: 'content/portfolio/*',
-    format: { data: 'json' },
-    schema: {
-      title: fields.slug({ name: { label: 'Titolo' } }),
-
-      // CONFIGURAZIONE CORRETTA
-      image: fields.image({
-        label: 'Immagine',
-        // Directory SENZA slash iniziale
-        directory: 'public/images/portfolio',
-        // PublicPath CON slash iniziale e finale
-        publicPath: '/images/portfolio/',
-        validation: { isRequired: true },
-      }),
-    },
-  }),
-}
-```
-
-**Struttura file risultante:**
-```
-public/
-└── images/
-    └── portfolio/
-        ├── progetto-1/
-        │   └── image.jpg
-        ├── progetto-2/
-        │   └── image.png
-        └── progetto-3/
-            └── image.webp
-```
-
-**Valore nel JSON:**
-```json
-{
-  "title": "progetto-1",
-  "image": "/images/portfolio/progetto-1/image.jpg"
-}
-```
-
-### Configurazione CORRETTA per Singletons
-
-```typescript
-singletons: {
-  global: singleton({
-    label: 'Impostazioni',
-    path: 'content/settings/global',
-    format: { data: 'json' },
-    schema: {
-      logo: fields.image({
-        label: 'Logo',
-        // Directory SENZA slash iniziale
-        directory: 'public/images/brand',
-        // PublicPath CON slash iniziale e finale
-        publicPath: '/images/brand/',
-      }),
-    },
-  }),
-}
-```
-
-**Struttura file risultante:**
-```
-public/
-└── images/
-    └── brand/
-        └── global/           <- Nome del singleton
-            └── logo.png      <- Nome del campo
-```
-
-**Valore nel JSON:**
-```json
-{
-  "logo": "/images/brand/global/logo.png"
-}
-```
-
-### Regole d'Oro per le Immagini
-
-| Proprieta | Regola | Esempio Corretto | Esempio ERRATO |
-|-----------|--------|------------------|----------------|
-| `directory` | SENZA slash iniziale | `public/images/gallery` | `/public/images/gallery` |
-| `directory` | SENZA slash finale | `public/images/gallery` | `public/images/gallery/` |
-| `publicPath` | CON slash iniziale | `/images/gallery/` | `images/gallery/` |
-| `publicPath` | CON slash finale | `/images/gallery/` | `/images/gallery` |
-
-### Dove Salvare le Immagini: public/ vs src/assets/
-
-| Directory | Uso | Pro | Contro |
-|-----------|-----|-----|--------|
-| `public/` | Immagini gestite da Keystatic | Path prevedibili, servite direttamente | No ottimizzazione Astro |
-| `src/assets/` | Immagini con Astro Image | Ottimizzazione automatica | Path complessi da gestire |
-
-**Raccomandazione**: Usa `public/` per le immagini gestite da Keystatic. E piu semplice e prevedibile.
-
-### Configurazione per src/assets/ (Avanzato)
-
-Se vuoi usare `src/assets/` con Astro Image optimization:
-
+Config:
 ```typescript
 image: fields.image({
-  label: 'Immagine',
-  directory: 'src/assets/images/gallery',
-  publicPath: '/src/assets/images/gallery/',
+  directory: 'src/assets/images/portfolio',
+  publicPath: '/src/assets/images/portfolio/',
 })
 ```
 
-**ATTENZIONE**: Con `src/assets/`, devi usare `import.meta.glob` per caricare le immagini:
+Quando carichi un'immagine per l'entry `progetto-1`:
+- File salvato in: `src/assets/images/portfolio/progetto-1/image.png`
+- Valore nel JSON: `"/src/assets/images/portfolio/progetto-1/image.png"` (path COMPLETO)
+
+**NON** salva solo il filename `"image.png"`. Salva il path completo.
+
+### Struttura File per Collections
+
+Per una collection con `slugField: 'title'`:
+
+```
+keystatic.config.ts:
+  directory: 'src/assets/images/portfolio'
+  publicPath: '/src/assets/images/portfolio/'
+
+Entry con slug "progetto-1":
+  File:  src/assets/images/portfolio/progetto-1/image.png
+  JSON:  "image": "/src/assets/images/portfolio/progetto-1/image.png"
+
+Entry con slug "progetto-2":
+  File:  src/assets/images/portfolio/progetto-2/image.png
+  JSON:  "image": "/src/assets/images/portfolio/progetto-2/image.png"
+```
+
+### Struttura File per Singletons
+
+Per un singleton chiamato `global`:
+
+```
+keystatic.config.ts:
+  directory: 'src/assets/images/uploads'
+  publicPath: '/src/assets/images/uploads/'
+
+Singleton "global", campo "logo":
+  File:  src/assets/images/uploads/global/logo.png
+  JSON:  "logo": "/src/assets/images/uploads/global/logo.png"
+```
+
+### Configurazione CORRETTA e TESTATA
+
+Questa configurazione e stata verificata funzionante:
 
 ```typescript
----
-// Nel componente Astro
-import { Image } from 'astro:assets';
-
-// Importa tutte le immagini della gallery
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/images/gallery/**/*.{png,jpg,jpeg,webp}',
-  { eager: true }
-);
-
-// Funzione per trovare l'immagine dal path salvato nel JSON
-function getImage(jsonPath: string) {
-  // jsonPath = "/src/assets/images/gallery/progetto-1/image.jpg"
-  const key = jsonPath; // Il path nel JSON corrisponde alla chiave del glob
-  return images[key]?.default;
-}
-
-// Uso
-const portfolioItem = { image: "/src/assets/images/gallery/progetto-1/image.jpg" };
-const imageData = getImage(portfolioItem.image);
----
-
-{imageData && <Image src={imageData} alt="Portfolio" />}
-```
-
-### Verifica Configurazione Immagini
-
-Checklist per debug:
-
-1. **Il file esiste fisicamente?**
-   ```bash
-   ls -la public/images/portfolio/progetto-1/
-   ```
-
-2. **Il path nel JSON e corretto?**
-   ```bash
-   cat content/portfolio/progetto-1.json | grep image
-   ```
-
-3. **Il publicPath corrisponde alla struttura?**
-   - Se `publicPath: '/images/portfolio/'`
-   - E lo slug e `progetto-1`
-   - E il campo e `image`
-   - Il file deve essere in: `public/images/portfolio/progetto-1/image.*`
-
-4. **L'Admin UI mostra l'immagine?**
-   - Vai su `/keystatic`
-   - Apri l'entry
-   - L'immagine deve essere visibile nel campo
-
-### Errori Comuni e Soluzioni
-
-#### Immagine non visibile in /keystatic
-
-**Causa**: Il path nel JSON non corrisponde alla posizione fisica del file.
-
-**Verifica**:
-```bash
-# Vedi cosa c'e nel JSON
-cat content/portfolio/progetto-1.json
-
-# Esempio output: "image": "/images/portfolio/progetto-1/image.jpg"
-
-# Verifica che il file esista
-ls public/images/portfolio/progetto-1/image.jpg
-```
-
-**Soluzione**: Assicurati che:
-- `directory` punti alla cartella corretta (senza il nome dell'entry)
-- `publicPath` corrisponda al path relativo dalla root del sito
-
-#### Immagine visibile in keystatic ma non nel frontend
-
-**Causa**: Il path e corretto per Keystatic ma non per il frontend.
-
-**Verifica**: Il path salvato deve corrispondere a un URL accessibile.
-- `/images/...` -> serve da `public/images/...`
-- `/src/assets/...` -> richiede import dinamico con Vite
-
-#### Upload fallisce silenziosamente
-
-**Causa**: La directory non esiste o non ha permessi di scrittura.
-
-**Soluzione**:
-```bash
-mkdir -p public/images/portfolio
-```
-
-### Esempio Completo: Portfolio con Immagini
-
-**keystatic.config.ts:**
-```typescript
-import { config, fields, collection } from '@keystatic/core';
+// keystatic.config.ts
+import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: { kind: 'github', repo: 'owner/repo' },
+  storage: {
+    kind: 'github',
+    repo: 'owner/repo-name',
+  },
+
+  singletons: {
+    global: singleton({
+      label: 'Impostazioni Globali',
+      path: 'content/settings/global',
+      format: { data: 'json' },
+      schema: {
+        logoNavbar: fields.image({
+          label: 'Logo Navbar',
+          directory: 'src/assets/images/uploads',
+          publicPath: '/src/assets/images/uploads/',
+        }),
+        logoHero: fields.image({
+          label: 'Logo Hero',
+          directory: 'src/assets/images/uploads',
+          publicPath: '/src/assets/images/uploads/',
+        }),
+      },
+    }),
+  },
 
   collections: {
     portfolio: collection({
@@ -676,63 +531,194 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: 'Titolo' } }),
         image: fields.image({
-          label: 'Immagine Principale',
-          directory: 'public/images/portfolio',
-          publicPath: '/images/portfolio/',
-          validation: { isRequired: true },
+          label: 'Immagine',
+          directory: 'src/assets/images/portfolio',
+          publicPath: '/src/assets/images/portfolio/',
         }),
-        gallery: fields.array(
-          fields.image({
-            label: 'Immagine',
-            directory: 'public/images/portfolio',
-            publicPath: '/images/portfolio/',
-          }),
-          { label: 'Galleria', itemLabel: (props) => props.value || 'Immagine' }
-        ),
+        description: fields.text({ label: 'Descrizione', multiline: true }),
+        order: fields.number({ label: 'Ordine', defaultValue: 0 }),
+        featured: fields.checkbox({ label: 'In Evidenza' }),
       },
     }),
   },
 });
 ```
 
-**Struttura risultante dopo upload:**
+### Struttura File Risultante (VERIFICATA)
+
 ```
-content/
+src/assets/images/
+├── uploads/
+│   └── global/                    <- Nome del singleton
+│       ├── logoNavbar.png         <- Campo logoNavbar
+│       └── logoHero.png           <- Campo logoHero
 └── portfolio/
-    └── progetto-web.json
+    ├── progetto-1/                <- Slug dell'entry
+    │   └── image.png              <- Campo image
+    ├── progetto-2/
+    │   └── image.png
+    └── vfdc/                      <- Altro entry
+        └── image.png
 
-public/
-└── images/
-    └── portfolio/
-        └── progetto-web/
-            ├── image.jpg           <- Campo "image"
-            ├── gallery/0/image.png <- Prima immagine gallery
-            └── gallery/1/image.jpg <- Seconda immagine gallery
+content/
+├── settings/
+│   └── global.json
+└── portfolio/
+    ├── progetto-1.json
+    ├── progetto-2.json
+    └── vfdc.json
 ```
 
-**content/portfolio/progetto-web.json:**
+### JSON Risultante (VERIFICATO)
+
+**content/settings/global.json:**
 ```json
 {
-  "title": "progetto-web",
-  "image": "/images/portfolio/progetto-web/image.jpg",
-  "gallery": [
-    "/images/portfolio/progetto-web/gallery/0/image.png",
-    "/images/portfolio/progetto-web/gallery/1/image.jpg"
-  ]
+  "logoNavbar": "/src/assets/images/uploads/global/logoNavbar.png",
+  "logoHero": "/src/assets/images/uploads/global/logoHero.png"
 }
 ```
 
-**Componente Astro:**
-```astro
+**content/portfolio/progetto-1.json:**
+```json
+{
+  "title": "Progetto 1",
+  "image": "/src/assets/images/portfolio/progetto-1/image.png",
+  "description": "Descrizione progetto",
+  "order": 1,
+  "featured": true
+}
+```
+
+### Usare le Immagini nel Frontend con Astro Image
+
+Con `src/assets/`, devi usare `import.meta.glob` per caricare le immagini e ottenerle ottimizzate:
+
+```typescript
 ---
-import portfolio from '../../content/portfolio/progetto-web.json';
+// src/pages/index.astro
+import { Image } from 'astro:assets';
+
+// Import JSON portfolio
+const portfolioFiles = import.meta.glob<{ default: any }>(
+  '/content/portfolio/*.json',
+  { eager: true }
+);
+
+// Import TUTTE le immagini portfolio
+const portfolioImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/portfolio/**/*.{png,jpg,jpeg,gif,webp}',
+  { eager: true }
+);
+
+// Costruisci array portfolio con immagini
+const portfolio = Object.entries(portfolioFiles)
+  .map(([filePath, mod]) => {
+    const slug = filePath.split('/').pop()?.replace('.json', '') || '';
+    const titleData = mod.default.title;
+    const displayTitle = typeof titleData === 'object' ? titleData.name : titleData;
+
+    // Il JSON contiene il path completo: /src/assets/images/portfolio/slug/image.png
+    const imagePath = mod.default.image;
+    const imageModule = portfolioImages[imagePath];
+
+    return {
+      ...mod.default,
+      slug,
+      displayTitle,
+      image: imageModule?.default || null,
+    };
+  })
+  .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
-<img src={portfolio.image} alt={portfolio.title} />
-
-{portfolio.gallery.map((img, i) => (
-  <img src={img} alt={`Gallery ${i + 1}`} />
+{portfolio.map((item) => (
+  item.image ? (
+    <Image
+      src={item.image}
+      alt={item.displayTitle}
+      width={400}
+      height={400}
+      class="w-full h-full object-cover"
+    />
+  ) : (
+    <div>No image</div>
+  )
 ))}
+```
+
+### Checklist Debug Immagini
+
+Quando le immagini non appaiono in `/keystatic`:
+
+1. **Hai fatto push su GitHub?** (CRITICO per GitHub mode)
+   ```bash
+   git status  # Deve mostrare "nothing to commit"
+   git log -1  # Verifica che il commit con le immagini sia pushato
+   ```
+
+2. **Il path nel JSON corrisponde al file fisico?**
+   ```bash
+   # Leggi il JSON
+   cat content/portfolio/progetto-1.json | grep image
+   # Output: "image": "/src/assets/images/portfolio/progetto-1/image.png"
+
+   # Verifica che il file esista
+   ls -la src/assets/images/portfolio/progetto-1/image.png
+   ```
+
+3. **La directory e il publicPath sono coerenti?**
+   - `directory: 'src/assets/images/portfolio'` (senza slash iniziale)
+   - `publicPath: '/src/assets/images/portfolio/'` (con slash iniziale E finale)
+
+4. **Lo slug nel JSON corrisponde alla sottocartella?**
+   - Entry slug: `progetto-1`
+   - Sottocartella immagine: `src/assets/images/portfolio/progetto-1/`
+
+### Errore Comune: Solo filename nel JSON
+
+**SBAGLIATO** - Se il JSON contiene solo il filename:
+```json
+{
+  "image": "image.png"
+}
+```
+
+**CORRETTO** - Deve contenere il path completo:
+```json
+{
+  "image": "/src/assets/images/portfolio/progetto-1/image.png"
+}
+```
+
+Se hai JSON con solo filename, Keystatic non trovera l'immagine. Correggi manualmente o ricrea l'entry tramite l'Admin UI.
+
+### Errore Comune: Immagini non pushate
+
+Se modifichi/aggiungi immagini localmente ma non fai push:
+- Il file esiste nel tuo filesystem ✓
+- Keystatic Admin UI non lo vede ✗
+- L'anteprima mostra "Choose image" invece dell'immagine
+
+**Soluzione**: `git add . && git commit -m "Add images" && git push`
+
+### Alternativa: Usare public/ invece di src/assets/
+
+Se preferisci path piu semplici senza ottimizzazione Astro:
+
+```typescript
+image: fields.image({
+  directory: 'public/images/portfolio',
+  publicPath: '/images/portfolio/',
+})
+```
+
+**Pro**: Path diretti, niente import.meta.glob
+**Contro**: Niente ottimizzazione immagini Astro
+
+```astro
+<!-- Uso diretto nel template -->
+<img src={item.image} alt={item.title} />
 ```
 
 ---
